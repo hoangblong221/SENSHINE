@@ -7,7 +7,10 @@ namespace API.Models
     {
         public Product()
         {
+<<<<<<< HEAD
             SaleItems = new HashSet<SaleItem>();
+=======
+>>>>>>> 3c01c19a3da51403c8e5862e6ab2cada4a6bd574
             Categories = new HashSet<Category>();
         }
 
@@ -18,9 +21,12 @@ namespace API.Models
         public decimal? Price { get; set; }
         public int? QuantityInStock { get; set; }
 
+<<<<<<< HEAD
         public virtual Spa? Spa { get; set; }
         public virtual ICollection<SaleItem> SaleItems { get; set; }
 
+=======
+>>>>>>> 3c01c19a3da51403c8e5862e6ab2cada4a6bd574
         public virtual ICollection<Category> Categories { get; set; }
     }
 }
