@@ -4,9 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 <<<<<<< HEAD
+<<<<<<< HEAD
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{AB9FA073-1E59-44B2-B59F-DEBCEFF64E8E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{FA582690-16BB-42B4-8C79-8C1C4F6E7286}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{46C853E0-142E-45A6-9FCE-BD209776F0DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{B0BCA8D5-8F2A-4A28-8259-39F91952CEBA}"
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 =======
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{46C853E0-142E-45A6-9FCE-BD209776F0DE}"
 EndProject
@@ -20,6 +26,7 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 <<<<<<< HEAD
+<<<<<<< HEAD
 		{AB9FA073-1E59-44B2-B59F-DEBCEFF64E8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AB9FA073-1E59-44B2-B59F-DEBCEFF64E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB9FA073-1E59-44B2-B59F-DEBCEFF64E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,6 +36,8 @@ Global
 		{FA582690-16BB-42B4-8C79-8C1C4F6E7286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA582690-16BB-42B4-8C79-8C1C4F6E7286}.Release|Any CPU.Build.0 = Release|Any CPU
 =======
+=======
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 		{46C853E0-142E-45A6-9FCE-BD209776F0DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46C853E0-142E-45A6-9FCE-BD209776F0DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46C853E0-142E-45A6-9FCE-BD209776F0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,6 +46,9 @@ Global
 		{B0BCA8D5-8F2A-4A28-8259-39F91952CEBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0BCA8D5-8F2A-4A28-8259-39F91952CEBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0BCA8D5-8F2A-4A28-8259-39F91952CEBA}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
+=======
 >>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
