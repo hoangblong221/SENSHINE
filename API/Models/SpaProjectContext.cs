@@ -49,8 +49,21 @@ namespace API.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+<<<<<<< HEAD
+<<<<<<< HEAD
+                var builder = new ConfigurationBuilder()
+                              .SetBasePath(Directory.GetCurrentDirectory())
+                              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                IConfigurationRoot configuration = builder.Build();
+                optionsBuilder.UseSqlServer(configuration.GetConnectionString("MyCnn"));
+=======
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("server =localhost; database = SpaProject;uid=sa;pwd=123;");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
+=======
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server =localhost; database = SpaProject;uid=sa;pwd=123;");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
             }
         }
 
@@ -193,7 +206,15 @@ namespace API.Models
             modelBuilder.Entity<CustomerSegmentation>(entity =>
             {
                 entity.HasKey(e => e.SegmentId)
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    .HasName("PK__Customer__C680609B31D6F427");
+=======
                     .HasName("PK__Customer__C680609BC9090BA7");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
+=======
+                    .HasName("PK__Customer__C680609BC9090BA7");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 
                 entity.ToTable("CustomerSegmentation");
 
@@ -285,7 +306,15 @@ namespace API.Models
                         r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductCa__Produ__571DF1D5"),
                         j =>
                         {
+<<<<<<< HEAD
+<<<<<<< HEAD
+                            j.HasKey("ProductId", "CategoryId").HasName("PK__ProductC__159C554F8A2A34A5");
+=======
                             j.HasKey("ProductId", "CategoryId").HasName("PK__ProductC__159C554FC76578F4");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
+=======
+                            j.HasKey("ProductId", "CategoryId").HasName("PK__ProductC__159C554FC76578F4");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 
                             j.ToTable("ProductCategories");
 
@@ -339,7 +368,15 @@ namespace API.Models
             modelBuilder.Entity<RewardPoint>(entity =>
             {
                 entity.HasKey(e => e.RewardId)
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    .HasName("PK__RewardPo__82501599F81FC558");
+=======
                     .HasName("PK__RewardPo__82501599B8F2D39B");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
+=======
+                    .HasName("PK__RewardPo__82501599B8F2D39B");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 
                 entity.Property(e => e.RewardId).HasColumnName("RewardID");
 
@@ -532,7 +569,15 @@ namespace API.Models
             modelBuilder.Entity<SystemSetting>(entity =>
             {
                 entity.HasKey(e => e.SettingId)
+<<<<<<< HEAD
+<<<<<<< HEAD
+                    .HasName("PK__SystemSe__54372AFD913D4C80");
+=======
                     .HasName("PK__SystemSe__54372AFDE6BEEEB5");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
+=======
+                    .HasName("PK__SystemSe__54372AFDE6BEEEB5");
+>>>>>>> 80d94dc5e6631bb94fe479a2e337b265a77ebfa9
 
                 entity.Property(e => e.SettingId).HasColumnName("SettingID");
 
