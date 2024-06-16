@@ -21,3 +21,36 @@ public IActionResult GetManagerData()
 ```
 Các ROLE còn lại tương tự
 .....
+
+### Applying Code-First Approach
+Setting Up Migrations
+Install Entity Framework Tools:
+
+```bash
+dotnet add package Microsoft.EntityFrameworkCore.Design
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+```
+
+Add Initial Migration:
+
+```bash
+dotnet ef migrations add InitialCreate
+```
+
+Update Database:
+
+```bash
+dotnet ef database update
+```
+
+Handle Changes:
+
+When you make changes to your models, create a new migration:
+```bash
+dotnet ef migrations add <MigrationName>
+```
+
+Apply the migration:
+```bash
+dotnet ef database update
+```
