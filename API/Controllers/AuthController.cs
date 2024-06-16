@@ -38,19 +38,29 @@ namespace API.Controllers
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var claims = new[]
+            // Tạo danh sách các Claim bao gồm thông tin cơ bản và role của người dùng
+            var claims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
+            // Lấy danh sách role của người dùng từ UserRoles
+            var roles = user.UserRoles.Select(ur => ur.Role.RoleName).ToList();
+
+            // Thêm các role vào danh sách Claims
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, role));
+            }
+
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
-                signingCredentials: credentials
-            );
+               issuer: _configuration["Jwt:Issuer"],
+               audience: _configuration["Jwt:Audience"],
+               claims: claims,
+               expires: DateTime.UtcNow.AddMinutes(30),
+               signingCredentials: credentials
+           );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
