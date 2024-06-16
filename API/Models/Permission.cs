@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace API.Models
 {
-    public partial class Permission
+    public class Permission
     {
-        public Permission()
-        {
-            RolePermissions = new HashSet<RolePermission>();
-        }
-
-        public int PermissionId { get; set; }
-        public string PermissionName { get; set; } = null!;
-
-        public virtual ICollection<RolePermission> RolePermissions { get; set; }
+        public int ID_Per { get; set; }
+        public string PerName { get; set; }
+        public ICollection<RolePermission> RolePermissions { get; set; }
     }
 }
