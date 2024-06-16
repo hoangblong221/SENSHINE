@@ -1,8 +1,147 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">SenShine</div>
+        <nav>
+            <ul>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                </svg>
+                <li>Khách hàng</li>
+                <li>Đặt hẹn</li>
+                <li>Bán hàng</li>
+                <li>Thẻ dịch vụ</li>
+                <li>Quản lý thu chi</li>
+                <li>Báo cáo</li>
+                <li>Đội ngũ</li>
+                <li>Dịch vụ</li>
+                <li>Thông báo</li>
+                <li>Hệ thống</li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <input type="search" placeholder="Search">
+            <div class="user-profile">
+                <img src="profile.jpg" alt="User Profile">
+            </div>
+        </header>
+        <section class="stats">
+            <div class="stat-card">
+                <h3>Hôm nay</h3>
+                <p>14/6/2024</p>
+                <small>Khách hàng mới : 1</small>
+            </div>
+            <div class="stat-card">
+                <h3>Doanh thu</h3>
+                <p>1000000d</p>
+                
+            </div>
+            <div class="stat-card">
+                <h3>Ghi nợ</h3>
+                <p>4000000d</p>
+                
+            </div>
+            <div class="stat-card">
+                <h3>Tỉ lệ thanh toán</h3>
+                <p>20%</p>
+                
+            </div>
+        </section>
+        <section class="projects">
+            <h2>Bảng lịch hẹn</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ngày</th>
+                        <th>Tên khách hàng</th>
+                        <th>Loại dịch vụ</th>
+                        <th>Giờ vào</th>
+                        <th>Số điện thoại</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>14/6/2024</td>
+                        <td>Chị Nguyễn Thị A</td>
+                        <td>Massage toàn thân</td>
+                        <td>10h30</td>
+                        <td>0986868686</td>
+                    </tr>
+                    <tr>
+                        <td>14/6/2024</td>
+                        <td>Chị Nguyễn Quỳnh B</td>
+                        <td>Chăm sóc da mặt</td>
+                        <td>1h40</td>
+                        <td>0345678999</td>
+                    </tr>
+                    <tr>
+                        <td>14/6/2024</td>
+                        <td>Chị Đặng Thùy C</td>
+                        <td>Massage toàn thân</td>
+                        <td>11h</td>
+                        <td>0366997777</td>
+                    </tr>
+                    <tr>
+                        <td>15/6/2024</td>
+                        <td>Chị Trịnh Khánh D</td>
+                        <td>Chăm sóc da mặt</td>
+                        <td>15h</td>
+                        <td>0868878889</td>
+                    </tr>
+                    <tr>
+                        <td>15/6/2024</td>
+                        <td>Chị Nguyễn Thị A</td>
+                        <td>Combo A</td>
+                        <td>15h30</td>
+                        <td>0977345678</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="tasks-performance">
+            <h2>Tasks Performance (biểu đồ chart)</h2>
+            <div class="performance-chart">
+                <!-- Placeholder for performance chart -->
+            </div>
+        </section>
+        @*<section class="teams">
+            <h2>Teams</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Last Activity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jitu Chauhan</td>
+                        <td>Front End Developer</td>
+                        <td>Today</td>
+                    </tr>
+                    <tr>
+                        <td>Sandeep Chauhan</td>
+                        <td>Project Director</td>
+                        <td>Today</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>*@
+    </div>
+</body>
+</html>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
