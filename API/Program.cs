@@ -17,7 +17,7 @@ namespace API
             // Add services to the container.
 
             builder.Services.AddControllers();
-
+            builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             // Configure DbContext
@@ -26,6 +26,7 @@ namespace API
 
             // Register services
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ICardService, CardService>();
 
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
@@ -59,6 +60,12 @@ namespace API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
+
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
 
             app.UseHttpsRedirection();
 
