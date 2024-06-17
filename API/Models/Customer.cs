@@ -5,13 +5,22 @@ namespace API.Models
 {
     public partial class Customer
     {
-        public int CustomerId { get; set; }
-        public string FullName { get; set; } = null!;
-        public string? PhoneNumber { get; set; }
-        public string? Email { get; set; }
-        public string? Address { get; set; }
-        public DateTime? DateOfBirth { get; set; }
+        public Customer()
+        {
+            Appointments = new HashSet<Appointment>();
+            Invoices = new HashSet<Invoice>();
+            Reviews = new HashSet<Review>();
+            IdCards = new HashSet<Card>();
+        }
 
-        public virtual User CustomerNavigation { get; set; } = null!;
+        public int IdCus { get; set; }
+        public string Name { get; set; } = null!;
+        public string? Phone { get; set; }
+
+        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+
+        public virtual ICollection<Card> IdCards { get; set; }
     }
 }

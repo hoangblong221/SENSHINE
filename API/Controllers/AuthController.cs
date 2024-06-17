@@ -10,7 +10,7 @@ using System.Text;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api")]
     public class AuthController : Controller
     {
         private readonly IUserService _userService;
@@ -46,7 +46,7 @@ namespace API.Controllers
             };
 
             // Lấy danh sách role của người dùng từ UserRoles
-            var roles = user.UserRoles.Select(ur => ur.Role.RoleName).ToList();
+            var roles = user.IdRoles.Select(ur => ur.RoleName).ToList();
 
             // Thêm các role vào danh sách Claims
             foreach (var role in roles)

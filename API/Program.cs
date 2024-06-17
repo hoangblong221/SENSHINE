@@ -1,10 +1,10 @@
-using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using API.Services.Impl;
 using API.Services;
+using API.Models;
 
 namespace API
 {
@@ -18,8 +18,10 @@ namespace API
 
             builder.Services.AddControllers();
 
+            builder.Services.AddSwaggerGen();
+
             // Configure DbContext
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<SenShineSpaContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DBConnection")));
 
             // Register services

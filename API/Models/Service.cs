@@ -7,21 +7,20 @@ namespace API.Models
     {
         public Service()
         {
-            Appointments = new HashSet<Appointment>();
             Reviews = new HashSet<Review>();
-            ServiceCards = new HashSet<ServiceCard>();
+            Appointments = new HashSet<Appointment>();
+            IdCards = new HashSet<Card>();
+            Invoices = new HashSet<Invoice>();
         }
 
-        public int ServiceId { get; set; }
-        public int? SpaId { get; set; }
-        public string? ServiceName { get; set; }
+        public int IdSer { get; set; }
+        public string ServiceName { get; set; } = null!;
         public string? Description { get; set; }
-        public decimal? Price { get; set; }
-        public int? Duration { get; set; }
 
-        public virtual Spa? Spa { get; set; }
-        public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<ServiceCard> ServiceCards { get; set; }
+
+        public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Card> IdCards { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }

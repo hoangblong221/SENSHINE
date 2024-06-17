@@ -5,14 +5,14 @@ namespace API.Models
 {
     public partial class Salary
     {
-        public int SalaryId { get; set; }
-        public int? EmployeeId { get; set; }
+        public int IdSalary { get; set; }
+        public int IdEmployee { get; set; }
         public decimal? BaseSalary { get; set; }
         public int? OvertimeHours { get; set; }
         public decimal? TotalSalary { get; set; }
         public int? SalaryMonth { get; set; }
         public int? SalaryYear { get; set; }
 
-        public virtual User? Employee { get; set; }
+        public virtual Employee IdEmployeeNavigation { get; set; } = null!;
     }
 }

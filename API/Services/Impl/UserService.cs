@@ -1,21 +1,20 @@
-﻿using API.Data;
-using API.Models;
+﻿using API.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Services.Impl
 {
     public class UserService : IUserService
     {
-        private readonly ApplicationDbContext _context;
+        private readonly SenShineSpaContext _context;
 
-        public UserService(ApplicationDbContext context)
+        public UserService(SenShineSpaContext context)
         {
             _context = context;
         }
 
         public async Task<User> Authenticate(string username, string password)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == username && u.Password == password);
+            var user = await _context.Users.Include(r => r.IdRoles).SingleOrDefaultAsync(u => u.UserName == username && u.Password == password);
             return user;
         }
 

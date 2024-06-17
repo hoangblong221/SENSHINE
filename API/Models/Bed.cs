@@ -5,12 +5,14 @@ namespace API.Models
 {
     public partial class Bed
     {
-        public int BedId { get; set; }
-        public int? RoomId { get; set; }
-        public string? BedName { get; set; }
-        public string? Status { get; set; }
-        public DateTime? MaintenanceDate { get; set; }
+        public Bed()
+        {
+            IdRooms = new HashSet<Room>();
+        }
 
-        public virtual Room? Room { get; set; }
+        public int IdBed { get; set; }
+        public string BedNumber { get; set; } = null!;
+
+        public virtual ICollection<Room> IdRooms { get; set; }
     }
 }

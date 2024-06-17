@@ -5,20 +5,22 @@ namespace API.Models
 {
     public partial class Appointment
     {
-        public int AppointmentId { get; set; }
-        public int? SpaId { get; set; }
-        public int? RoomId { get; set; }
-        public int? CustomerId { get; set; }
-        public int? EmployeeId { get; set; }
-        public int? ServiceId { get; set; }
-        public DateTime? AppointmentDate { get; set; }
-        public TimeSpan? AppointmentTime { get; set; }
-        public string? Status { get; set; }
+        public Appointment()
+        {
+            Products = new HashSet<Product>();
+            Services = new HashSet<Service>();
+        }
 
-        public virtual User? Customer { get; set; }
-        public virtual User? Employee { get; set; }
-        public virtual Room? Room { get; set; }
-        public virtual Service? Service { get; set; }
-        public virtual Spa? Spa { get; set; }
+        public int IdAppointment { get; set; }
+        public int CustomerId { get; set; }
+        public int IdEmployee { get; set; }
+        public DateTime AppointmentDate { get; set; }
+        public bool Status { get; set; }
+
+        public virtual Customer Customer { get; set; } = null!;
+        public virtual Employee IdEmployeeNavigation { get; set; } = null!;
+
+        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<Service> Services { get; set; }
     }
 }
