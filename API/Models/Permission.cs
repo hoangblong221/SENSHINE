@@ -7,12 +7,12 @@ namespace API.Models
     {
         public Permission()
         {
-            RolePermissions = new HashSet<RolePermission>();
+            IdRoles = new HashSet<Role>();
         }
 
-        public int PermissionId { get; set; }
-        public string PermissionName { get; set; } = null!;
+        public int IdPer { get; set; }
+        public string PerName { get; set; } = null!;
 
-        public virtual ICollection<RolePermission> RolePermissions { get; set; }
+        public virtual ICollection<Role> IdRoles { get; set; }
     }
 }

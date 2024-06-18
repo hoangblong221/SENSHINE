@@ -7,26 +7,17 @@ namespace API.Models
     {
         public Product()
         {
-<<<<<<< HEAD
-            SaleItems = new HashSet<SaleItem>();
-=======
->>>>>>> 3c01c19a3da51403c8e5862e6ab2cada4a6bd574
+            Appointments = new HashSet<Appointment>();
             Categories = new HashSet<Category>();
+            IdImgs = new HashSet<Image>();
         }
 
-        public int ProductId { get; set; }
-        public int? SpaId { get; set; }
-        public string? ProductName { get; set; }
-        public string? Description { get; set; }
+        public int IdProduct { get; set; }
+        public string ProductName { get; set; } = null!;
         public decimal? Price { get; set; }
-        public int? QuantityInStock { get; set; }
 
-<<<<<<< HEAD
-        public virtual Spa? Spa { get; set; }
-        public virtual ICollection<SaleItem> SaleItems { get; set; }
-
-=======
->>>>>>> 3c01c19a3da51403c8e5862e6ab2cada4a6bd574
+        public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<Image> IdImgs { get; set; }
     }
 }

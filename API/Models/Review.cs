@@ -12,7 +12,7 @@ namespace API.Models
         public string? Comment { get; set; }
         public DateTime? ReviewDate { get; set; }
 
-        public virtual User? Customer { get; set; }
+        public virtual Customer? Customer { get; set; }
         public virtual Service? Service { get; set; }
     }
 }
