@@ -19,6 +19,7 @@ namespace API
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Configure DbContext
             builder.Services.AddDbContext<SenShineSpaContext>(options =>
