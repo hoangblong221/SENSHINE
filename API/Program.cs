@@ -26,7 +26,7 @@ namespace API
 
             // Register services
             builder.Services.AddScoped<IUserService, UserService>();
-
+            builder.Services.AddScoped<ISpaService, SpaService>();
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
             {
@@ -57,7 +57,11 @@ namespace API
             });
 
             var app = builder.Build();
-
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
             // Configure the HTTP request pipeline.
 
             app.UseHttpsRedirection();
