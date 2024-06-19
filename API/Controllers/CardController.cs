@@ -7,7 +7,7 @@ using API.Dtos;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     public class CardController : Controller
     {
         private readonly ICardService _cardService;
@@ -19,42 +19,42 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
+        //[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
         public IActionResult GetCards()
         {
             var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCards());
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             return Ok(cards);
         }
 
-        [HttpGet("{id}/byId")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetCard(int id)
+        //[HttpGet("{id}/byId")]
+        ////[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
+        ////[ProducesResponseType(400)]
+        //public IActionResult GetCard(int id)
+        //{
+        //    if(!_cardService.CardExist(id))
+        //        return NotFound();
+
+        //    var card = _mapper.Map<CardDTO>(_cardService.GetCard(id));
+
+        //    if(!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    return Ok(card);
+        //}
+
+        [HttpGet("{input}")]
+        //[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
+        //[ProducesResponseType(400)]
+        public IActionResult GetCardsByNumNamePhone(string input)
         {
-            if(!_cardService.CardExist(id))
+            if (!_cardService.CardExistNumNamePhone(input))
                 return NotFound();
 
-            var card = _mapper.Map<CardDTO>(_cardService.GetCard(id));
-
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(card);
-        }
-
-        [HttpGet("{num}/byNum")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetCardsByNum(string num)
-        {
-            if (!_cardService.CardExistNum(num))
-                return NotFound();
-
-            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCardNum(num));
+            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCardNumNamePhone(input));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -62,20 +62,18 @@ namespace API.Controllers
             return Ok(cards);
         }
 
-        [HttpGet("{id}/customerName")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
-        [ProducesResponseType(400)]
-        public IActionResult GetCustomerName(int id)
+        [HttpGet]
+        public IActionResult SortCardByDate(string dateFrom, string dateTo)
         {
-            if (!_cardService.CardExist(id))
+            if (!_cardService.CardExistByDate(dateFrom, dateTo))
                 return NotFound();
 
-            var cusName = _cardService.GetCustomerName(id);
+            var cards = _mapper.Map<List<CardDTO>>(_cardService.SortCardByDate(dateFrom, dateTo));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(cusName);
+            return Ok(cards);
         }
     }
 }

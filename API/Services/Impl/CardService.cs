@@ -1,5 +1,9 @@
 ﻿using API.Models;
-using System.Reflection.Metadata.Ecma335;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient.Server;
+using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+
 
 namespace API.Services.Impl
 {
@@ -11,40 +15,59 @@ namespace API.Services.Impl
         {
             _context = context;
         }
+        public ICollection<Card> GetCards()
+        {
+            return _context.Cards.Include(c => c.Customer).Include(s => s.IdSers).ToList();
+        }
 
         public Card GetCard(int id)
         {
-            return _context.Cards.Where(c => c.IdCard == id).FirstOrDefault();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.IdSers).Where(c => c.IdCard == id).FirstOrDefault();
         }
 
-        public ICollection<Card> GetCardNum(string num)
+        public ICollection<Card> GetCardNumNamePhone(string input)
         {
-            return _context.Cards.Where(c => c.CardNumber.Contains(num)).ToList();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.IdSers).Where(c => c.CardNumber.Contains(input)
+            || c.Customer.Name.Contains(input)
+            || c.Customer.Phone.Contains(input)).ToList();
         }
 
-        public string GetCustomerName(int id)
+        public ICollection<Card> SortCardByDate(string dateFrom, string dateTo)
         {
-            var Card = _context.Cards.Where(c => c.IdCard == id).FirstOrDefault();
-            var Customer = _context.Customers.Where(c => c.IdCards.Contains(Card));
+            DateTime parsedDateFrom = ParseDateTimeLikeSSMS(dateFrom);
+            DateTime parsedDateTo = ParseDateTimeLikeSSMS(dateTo);
 
-            if (Customer.Count() <= 0)
-                return "Not found";
-            else
-                return Customer.Single().Name;
-        }
-
-        public ICollection<Card> GetCards()
-        {
-            return _context.Cards.OrderBy(c => c.IdCard).ToList();
+            return _context.Cards.Where(c => c.CreateDate <= parsedDateTo
+                                          && c.CreateDate >= parsedDateFrom).ToList();
         }
 
         public bool CardExist(int id)
         {
             return _context.Cards.Any(c => c.IdCard == id);
         }
-        public bool CardExistNum(string num)
+
+        public bool CardExistNumNamePhone(string input)
         {
-            return _context.Cards.Any(c => c.CardNumber.Contains(num));
+            return _context.Cards.Any(c => c.CardNumber.Contains(input)
+            || c.Customer.Name.Contains(input)
+            || c.Customer.Phone.Contains(input));
+        }
+
+        public bool CardExistByDate(string dateFrom, string dateTo)
+        {
+            DateTime parsedDateFrom = ParseDateTimeLikeSSMS(dateFrom);
+            DateTime parsedDateTo = ParseDateTimeLikeSSMS(dateTo);
+
+            return _context.Cards.Any(c => c.CreateDate <= parsedDateTo
+                                        && c.CreateDate >= parsedDateFrom);
+        }
+
+        public static DateTime ParseDateTimeLikeSSMS(string dateString)
+        {
+            string format = "yyyy-MM-dd'T'HH:mm:ss"; // Adjust format based on your string
+            DateTime convertedDateTime;
+            convertedDateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
+            return convertedDateTime;
         }
     }
 }

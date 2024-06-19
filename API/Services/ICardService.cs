@@ -6,9 +6,10 @@ namespace API.Services
     {
         ICollection<Card> GetCards();
         Card GetCard(int id);
-        ICollection<Card> GetCardNum(string num);
-        String GetCustomerName(int id);
+        ICollection<Card> GetCardNumNamePhone(string input);
+        ICollection<Card> SortCardByDate(string dateFrom, string dateTo);
         bool CardExist(int id);
-        bool CardExistNum(string num);
+        bool CardExistNumNamePhone(string input);
+        bool CardExistByDate(string dateFrom, string dateTo);
     }
 }
