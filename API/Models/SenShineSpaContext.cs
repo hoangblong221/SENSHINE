@@ -44,11 +44,11 @@ namespace API.Models
         public virtual DbSet<Ward> Wards { get; set; } = null!;
         public virtual DbSet<WorkSchedule> WorkSchedules { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-            optionsBuilder.UseSqlServer(config.GetConnectionString("DBConnection"));
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+        //    optionsBuilder.UseSqlServer(config.GetConnectionString("DBConnection"));
+        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
