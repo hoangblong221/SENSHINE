@@ -8,9 +8,9 @@ namespace API.Dtos
         public string ServiceName { get; set; } = null!;
         public string? Description { get; set; }
 
-        public virtual ICollection<Review> Reviews { get; set; }
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual ICollection<Card> IdCards { get; set; }
-        public virtual ICollection<Invoice> Invoices { get; set; }
+        //public virtual ICollection<Review> Reviews { get; set; }
+        //public virtual ICollection<Appointment> Appointments { get; set; }
+        //public virtual ICollection<Card> IdCards { get; set; }
+        //public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }
