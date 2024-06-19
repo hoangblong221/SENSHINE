@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
+using API.Ultils;
 
 
 namespace API.Services.Impl
@@ -34,8 +35,8 @@ namespace API.Services.Impl
 
         public ICollection<Card> SortCardByDate(string dateFrom, string dateTo)
         {
-            DateTime parsedDateFrom = ParseDateTimeLikeSSMS(dateFrom);
-            DateTime parsedDateTo = ParseDateTimeLikeSSMS(dateTo);
+            DateTime parsedDateFrom = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateFrom);
+            DateTime parsedDateTo = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateTo);
 
             return _context.Cards.Where(c => c.CreateDate <= parsedDateTo
                                           && c.CreateDate >= parsedDateFrom).ToList();
@@ -55,19 +56,11 @@ namespace API.Services.Impl
 
         public bool CardExistByDate(string dateFrom, string dateTo)
         {
-            DateTime parsedDateFrom = ParseDateTimeLikeSSMS(dateFrom);
-            DateTime parsedDateTo = ParseDateTimeLikeSSMS(dateTo);
+            DateTime parsedDateFrom = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateFrom);
+            DateTime parsedDateTo = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateTo);
 
             return _context.Cards.Any(c => c.CreateDate <= parsedDateTo
                                         && c.CreateDate >= parsedDateFrom);
-        }
-
-        public static DateTime ParseDateTimeLikeSSMS(string dateString)
-        {
-            string format = "yyyy-MM-dd'T'HH:mm:ss"; // Adjust format based on your string
-            DateTime convertedDateTime;
-            convertedDateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
-            return convertedDateTime;
         }
     }
 }
