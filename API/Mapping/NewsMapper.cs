@@ -2,11 +2,11 @@
 using API.Models;
 using AutoMapper;
 
-namespace API.Helper
+namespace API.Mapping
 {
-    public class MappingProfiles : Profile
+    public class NewsMapper : Profile
     {
-        public MappingProfiles()
+        public NewsMapper()
         {
             CreateMap<Card, CardDTO>()
             .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.FirstName + " " + src.Customer.MidName + " " + src.Customer.LastName))
