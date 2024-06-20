@@ -10,7 +10,7 @@ namespace API.Models
             Invoices = new HashSet<Invoice>();
         }
 
-        public int PromotionId { get; set; }
+        public int Id { get; set; }
         public int? SpaId { get; set; }
         public string? PromotionName { get; set; }
         public DateTime? StartDate { get; set; }

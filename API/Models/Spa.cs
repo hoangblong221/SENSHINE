@@ -9,17 +9,18 @@ namespace API.Models
         {
             Invoices = new HashSet<Invoice>();
             Promotions = new HashSet<Promotion>();
-            IdRooms = new HashSet<Room>();
+            Rooms = new HashSet<Room>();
         }
 
-        public int IdSpa { get; set; }
+        public int Id { get; set; }
         public string SpaName { get; set; } = null!;
-        public string? Address { get; set; }
-        public string? Location { get; set; }
+        public string? ProvinceCode { get; set; }
+        public string? DistrictCode { get; set; }
+        public string? WardCode { get; set; }
 
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<Promotion> Promotions { get; set; }
 
-        public virtual ICollection<Room> IdRooms { get; set; }
+        public virtual ICollection<Room> Rooms { get; set; }
     }
 }
