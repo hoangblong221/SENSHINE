@@ -8,6 +8,7 @@ namespace API.Models
         public Customer()
         {
             Appointments = new HashSet<Appointment>();
+            Cards = new HashSet<Card>();
             Invoices = new HashSet<Invoice>();
             Reviews = new HashSet<Review>();
             IdCards = new HashSet<Card>();
@@ -18,6 +19,7 @@ namespace API.Models
         public string? Phone { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
+        public virtual ICollection<Card> Cards { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
 

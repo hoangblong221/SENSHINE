@@ -10,7 +10,7 @@ namespace API.Models
             Products = new HashSet<Product>();
         }
 
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
         public string CategoryName { get; set; } = null!;
 
         public virtual ICollection<Product> Products { get; set; }
