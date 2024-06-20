@@ -39,14 +39,16 @@ namespace API.Services.Impl
             }
             existingService.ServiceName = services.ServiceName;
             existingService.Description = services.Description;
+            await _dbContext.SaveChangesAsync(); // Save db sau khi sua
+
             return existingService;
         }
 
         public async Task<Service> FindServiceWithItsId(int IdSer)
         {
-            Service services = await _dbContext.Services.FirstOrDefaultAsync();
-            return services;
+            return await _dbContext.Services.FirstOrDefaultAsync(x => x.IdSer == IdSer);
         }
+
 
         public async Task<List<Service>> GetAllServiceAsync()
         {

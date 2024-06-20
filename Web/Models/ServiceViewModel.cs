@@ -2,7 +2,7 @@
 
 namespace Web.Models
 {
-    public class ListServiceModel
+    public class ServiceViewModel
     {
         [DisplayName("Service ID")]
         public int IdSer { get; set; }

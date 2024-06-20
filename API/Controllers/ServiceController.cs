@@ -17,10 +17,29 @@ namespace API.Controllers
             this.spaService = spaService;
         }
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> GetAllServices()
         {
             var ListOfServices = await spaService.GetAllServiceAsync();
-            return View(ListOfServices);
+            return Ok(ListOfServices);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByID(int IdSer)
+        {
+            if (IdSer < 1)
+            {
+                return BadRequest("ID Service không tồn tại");
+            }
+            else
+            {
+                var service = await spaService.FindServiceWithItsId(IdSer);
+                if (service == null)
+                {
+                    return NotFound("Service không tồn tại");
+                }
+                return Ok(service);
+            }
+        }
+
     }
 }
