@@ -5,6 +5,7 @@ using System.Text;
 using API.Services.Impl;
 using API.Services;
 using API.Models;
+using API.Mapping;
 
 namespace API
 {
@@ -26,6 +27,9 @@ namespace API
             // Register services
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ISpaService, SpaService>();
+            builder.Services.AddScoped<INewsService, NewsService>();
+            builder.Services.AddAutoMapper(typeof(NewsMapper));
+
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
             {
@@ -56,6 +60,7 @@ namespace API
             });
 
             var app = builder.Build();
+          
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
