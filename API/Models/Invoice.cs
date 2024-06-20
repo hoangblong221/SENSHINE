@@ -7,6 +7,7 @@ namespace API.Models
     {
         public Invoice()
         {
+            Cards = new HashSet<Card>();
             Services = new HashSet<Service>();
         }
 
@@ -22,6 +23,7 @@ namespace API.Models
         public virtual Promotion? Promotion { get; set; }
         public virtual Spa? Spa { get; set; }
 
+        public virtual ICollection<Card> Cards { get; set; }
         public virtual ICollection<Service> Services { get; set; }
     }
 }

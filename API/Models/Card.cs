@@ -7,8 +7,9 @@ namespace API.Models
     {
         public Card()
         {
+            Combos = new HashSet<Combo>();
             Customers = new HashSet<User>();
-            Services = new HashSet<Service>();
+            Invoices = new HashSet<Invoice>();
         }
 
         public int Id { get; set; }
@@ -16,11 +17,11 @@ namespace API.Models
         public int CustomerId { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? Status { get; set; }
-        public decimal? Price { get; set; }
 
         public virtual User Customer { get; set; } = null!;
 
+        public virtual ICollection<Combo> Combos { get; set; }
         public virtual ICollection<User> Customers { get; set; }
-        public virtual ICollection<Service> Services { get; set; }
+        public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }
