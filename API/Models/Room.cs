@@ -7,14 +7,14 @@ namespace API.Models
     {
         public Room()
         {
-            IdBeds = new HashSet<Bed>();
-            IdSpas = new HashSet<Spa>();
+            Beds = new HashSet<Bed>();
+            Spas = new HashSet<Spa>();
         }
 
-        public int IdRoom { get; set; }
+        public int Id { get; set; }
         public string RoomName { get; set; } = null!;
 
-        public virtual ICollection<Bed> IdBeds { get; set; }
-        public virtual ICollection<Spa> IdSpas { get; set; }
+        public virtual ICollection<Bed> Beds { get; set; }
+        public virtual ICollection<Spa> Spas { get; set; }
     }
 }

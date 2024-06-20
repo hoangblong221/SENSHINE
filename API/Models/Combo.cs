@@ -13,7 +13,7 @@ namespace API.Models
 
         public int Id { get; set; }
         public string? Name { get; set; }
-        public int Total { get; set; }
+        public int Quantity { get; set; }
         public string? Note { get; set; }
         public decimal? Price { get; set; }
         public decimal? Discount { get; set; }

@@ -14,7 +14,13 @@ namespace API.Services.Impl
 
         public async Task<User> Authenticate(string username, string password)
         {
-            var user = await _context.Users.Include(r => r.IdRoles).SingleOrDefaultAsync(u => u.UserName == username && u.Password == password);
+            var user = await _context.Users.Include(r => r.Roles).SingleOrDefaultAsync(u => u.UserName == username && u.Password == password);
+            return user;
+        }
+
+        public async Task<User> AddUser(string username, string password)
+        {
+            var user = await _context.Users.Include(r => r.Roles).SingleOrDefaultAsync(u => u.UserName == username && u.Password == password);
             return user;
         }
 

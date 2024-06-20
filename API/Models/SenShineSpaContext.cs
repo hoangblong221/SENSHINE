@@ -218,6 +218,8 @@ namespace API.Models
 
                 entity.Property(e => e.Price).HasColumnType("decimal(15, 2)");
 
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
                 entity.Property(e => e.SalePrice).HasColumnType("decimal(15, 2)");
 
                 entity.HasMany(d => d.Cards)
