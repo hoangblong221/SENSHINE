@@ -24,6 +24,7 @@ namespace Web.Controllers
                 string data = await response.Content.ReadAsStringAsync();
                 viewList = JsonConvert.DeserializeObject<List<NewsViewModel>>(data);
             }
+            ViewData["Title"] = "List News";
             return View(viewList);
         }
         public IActionResult AddNews()
