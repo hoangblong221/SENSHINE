@@ -20,7 +20,7 @@ namespace API.Controllers
 
         [HttpGet]
         //[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
-        public IActionResult GetCards()
+        public async Task<IActionResult> GetCards()
         {
             var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCards());
 
@@ -46,10 +46,10 @@ namespace API.Controllers
         //    return Ok(card);
         //}
 
-        [HttpGet("{input}")]
+        [HttpGet]
         //[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
         //[ProducesResponseType(400)]
-        public IActionResult GetCardsByNumNamePhone(string input)
+        public async Task<IActionResult> GetCardsByNumNamePhone(string input)
         {
             if (!_cardService.CardExistNumNamePhone(input))
                 return NotFound();
@@ -63,7 +63,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult SortCardByDate(string dateFrom, string dateTo)
+        public async Task<IActionResult> SortCardByDate(string dateFrom, string dateTo)
         {
             if (!_cardService.CardExistByDate(dateFrom, dateTo))
                 return NotFound();

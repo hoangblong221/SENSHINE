@@ -18,19 +18,21 @@ namespace API.Services.Impl
         }
         public ICollection<Card> GetCards()
         {
-            return _context.Cards.Include(c => c.Customer).Include(s => s.IdSers).ToList();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.Services).ToList();
         }
 
         public Card GetCard(int id)
         {
-            return _context.Cards.Include(c => c.Customer).Include(s => s.IdSers).Where(c => c.IdCard == id).FirstOrDefault();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.Services).Where(c => c.Id == id).FirstOrDefault();
         }
 
         public ICollection<Card> GetCardNumNamePhone(string input)
         {
-            return _context.Cards.Include(c => c.Customer).Include(s => s.IdSers).Where(c => c.CardNumber.Contains(input)
-            || c.Customer.Name.Contains(input)
-            || c.Customer.Phone.Contains(input)).ToList();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.Services).Where(c => c.CardNumber.Contains(input)
+                                                                                            || c.Customer.FirstName.Contains(input)
+                                                                                            || c.Customer.MidName.Contains(input)
+                                                                                            || c.Customer.LastName.Contains(input)
+                                                                                            || c.Customer.Phone.Contains(input)).ToList();
         }
 
         public ICollection<Card> SortCardByDate(string dateFrom, string dateTo)
@@ -38,20 +40,22 @@ namespace API.Services.Impl
             DateTime parsedDateFrom = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateFrom);
             DateTime parsedDateTo = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateTo);
 
-            return _context.Cards.Where(c => c.CreateDate <= parsedDateTo
-                                          && c.CreateDate >= parsedDateFrom).ToList();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.Services).Where(c => c.CreateDate <= parsedDateTo
+                                                                                          && c.CreateDate >= parsedDateFrom).ToList();
         }
 
         public bool CardExist(int id)
         {
-            return _context.Cards.Any(c => c.IdCard == id);
+            return _context.Cards.Any(c => c.Id == id);
         }
 
         public bool CardExistNumNamePhone(string input)
         {
             return _context.Cards.Any(c => c.CardNumber.Contains(input)
-            || c.Customer.Name.Contains(input)
-            || c.Customer.Phone.Contains(input));
+                                        || c.Customer.FirstName.Contains(input)
+                                        || c.Customer.MidName.Contains(input)
+                                        || c.Customer.LastName.Contains(input)
+                                        || c.Customer.Phone.Contains(input));
         }
 
         public bool CardExistByDate(string dateFrom, string dateTo)
