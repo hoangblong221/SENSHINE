@@ -46,7 +46,7 @@ namespace API.Controllers
             };
 
             // Lấy danh sách role của người dùng từ UserRoles
-            var roles = user.IdRoles.Select(ur => ur.RoleName).ToList();
+            var roles = user.Roles.Select(ur => ur.RoleName).ToList();
 
             // Thêm các role vào danh sách Claims
             foreach (var role in roles)
