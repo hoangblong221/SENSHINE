@@ -30,7 +30,7 @@ namespace API.Models
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
         public virtual DbSet<News> News { get; set; } = null!;
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
-        public virtual DbSet<Permission> Permissions { get; set; } = null!;
+        //public virtual DbSet<Permission> Permissions { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Promotion> Promotions { get; set; } = null!;
         public virtual DbSet<Province> Provinces { get; set; } = null!;
@@ -446,7 +446,7 @@ namespace API.Models
                     .HasConstraintName("FK__Notificat__UserI__778AC167");
             });
 
-            modelBuilder.Entity<Permission>(entity =>
+            /*modelBuilder.Entity<Permission>(entity =>
             {
                 entity.HasKey(e => e.IdPer)
                     .HasName("PK__Permissi__20AEE6F63AEF0436");
@@ -456,7 +456,7 @@ namespace API.Models
                 entity.Property(e => e.IdPer).HasColumnName("ID_Per");
 
                 entity.Property(e => e.PerName).HasMaxLength(50);
-            });
+            });*/
 
             modelBuilder.Entity<Product>(entity =>
             {
@@ -608,7 +608,7 @@ namespace API.Models
 
                 entity.Property(e => e.RoleName).HasMaxLength(50);
 
-                entity.HasMany(d => d.IdPers)
+               /*entity.HasMany(d => d.IdPers)
                     .WithMany(p => p.IdRoles)
                     .UsingEntity<Dictionary<string, object>>(
                         "RolePermission",
@@ -623,7 +623,7 @@ namespace API.Models
                             j.IndexerProperty<int>("IdRole").HasColumnName("ID_Role");
 
                             j.IndexerProperty<int>("IdPer").HasColumnName("ID_Per");
-                        });
+                        });*/
             });
 
             modelBuilder.Entity<Room>(entity =>
