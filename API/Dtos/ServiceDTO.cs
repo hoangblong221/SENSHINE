@@ -6,7 +6,7 @@ namespace API.Dtos
     {
         public int IdSer { get; set; }
         public string ServiceName { get; set; } = null!;
-        public decimal Price { get; set; }
+        public decimal Amount { get; set; }
         public string? Description { get; set; }
 
     }

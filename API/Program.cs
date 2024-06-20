@@ -28,7 +28,6 @@ namespace API
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<ISpaService, SpaService>();
             builder.Services.AddScoped<INewsService, NewsService>();
-            builder.Services.AddScoped<ICardService, CardService>();
             builder.Services.AddAutoMapper(typeof(NewsMapper));
 
             // Configure JWT authentication
@@ -61,7 +60,7 @@ namespace API
             });
 
             var app = builder.Build();
-          
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

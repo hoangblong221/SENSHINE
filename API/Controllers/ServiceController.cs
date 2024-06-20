@@ -1,4 +1,5 @@
-﻿using API.Dtos;
+﻿
+using API.Dtos;
 using API.Models;
 using API.Services;
 using API.Services.Impl;
@@ -68,7 +69,7 @@ namespace API.Controllers
                 var newService = new Service
                 {
                     ServiceName = serviceDTO.ServiceName,
-                    Price = serviceDTO.Price,
+                    Amount = serviceDTO.Amount,
                     Description = serviceDTO.Description
                 };
 
@@ -106,7 +107,7 @@ namespace API.Controllers
 
                 // Cập nhật các thông tin từ serviceDTO vào existingService
                 existingService.ServiceName = serviceDTO.ServiceName;
-                existingService.Price = serviceDTO.Price;
+                existingService.Amount = serviceDTO.Amount;
                 existingService.Description = serviceDTO.Description;
 
                 var updatedService = await spaService.EditServiceAsync(id, existingService);

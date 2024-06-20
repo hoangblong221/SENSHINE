@@ -10,8 +10,8 @@ namespace Web.Models
         [DisplayName("Service Name")]
         public string ServiceName { get; set; } = null!;
 
-        [DisplayName("Price")]
-        public decimal Price { get; set; }
+        [DisplayName("Amount")]
+        public decimal Amount { get; set; }
 
         [DisplayName("Description")]
         public string? Description { get; set; }

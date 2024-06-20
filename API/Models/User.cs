@@ -15,6 +15,7 @@ namespace API.Models
             Reviews = new HashSet<Review>();
             Salaries = new HashSet<Salary>();
             WorkSchedules = new HashSet<WorkSchedule>();
+            CardsNavigation = new HashSet<Card>();
             Roles = new HashSet<Role>();
         }
 
@@ -25,7 +26,6 @@ namespace API.Models
         public string? MidName { get; set; }
         public string? LastName { get; set; }
         public DateTime? BirthDate { get; set; }
-        public string? Phone { get; set; }
         public string? ProvinceCode { get; set; }
         public string? DistrictCode { get; set; }
         public string? WardCode { get; set; }
@@ -39,6 +39,7 @@ namespace API.Models
         public virtual ICollection<Salary> Salaries { get; set; }
         public virtual ICollection<WorkSchedule> WorkSchedules { get; set; }
 
+        public virtual ICollection<Card> CardsNavigation { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
     }
 }
