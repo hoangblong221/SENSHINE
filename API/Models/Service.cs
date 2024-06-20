@@ -9,18 +9,19 @@ namespace API.Models
         {
             Reviews = new HashSet<Review>();
             Appointments = new HashSet<Appointment>();
-            IdCards = new HashSet<Card>();
+            Combos = new HashSet<Combo>();
             Invoices = new HashSet<Invoice>();
         }
 
-        public int IdSer { get; set; }
+        public int Id { get; set; }
         public string ServiceName { get; set; } = null!;
+        public decimal Price { get; set; }
         public string? Description { get; set; }
 
         public virtual ICollection<Review> Reviews { get; set; }
 
         public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual ICollection<Card> IdCards { get; set; }
+        public virtual ICollection<Combo> Combos { get; set; }
         public virtual ICollection<Invoice> Invoices { get; set; }
     }
 }
