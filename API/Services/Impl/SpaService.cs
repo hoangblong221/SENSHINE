@@ -10,17 +10,17 @@ namespace API.Services.Impl
         {
             this._dbContext = dbContext;
         }
-
+        //Tạo service mới
         public async Task<Service> CreateServiceAsync(Service services)
         {
             await _dbContext.Services.AddAsync(services);
             await _dbContext.SaveChangesAsync();
             return services;
         }
-
-        public async Task<Service> DeleteServiceAsync(int IdSer)
+        //Xóa service
+        public async Task<Service> DeleteServiceAsync(int Id)
         {
-            var existingService = await _dbContext.Services.FirstOrDefaultAsync(x => x.IdSer == IdSer);
+            var existingService = await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == Id);
             if (existingService == null)
             {
                 return null;
@@ -29,24 +29,24 @@ namespace API.Services.Impl
             await _dbContext.SaveChangesAsync();
             return existingService;
         }
-
-        public async Task<Service> EditServiceAsync(int IdSer, Service services)
+        //Sửa thông tin service
+        public async Task<Service> EditServiceAsync(int Id, Service services)
         {
-            var existingService = await _dbContext.Services.FirstOrDefaultAsync(x => x.IdSer == IdSer);
+            var existingService = await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == Id);
             if (existingService == null)
             {
                 return null;
             }
             existingService.ServiceName = services.ServiceName;
             existingService.Description = services.Description;
-            await _dbContext.SaveChangesAsync(); // Save db sau khi sua
+            await _dbContext.SaveChangesAsync(); 
 
             return existingService;
         }
 
-        public async Task<Service> FindServiceWithItsId(int IdSer)
+        public async Task<Service> FindServiceWithItsId(int Id)
         {
-            return await _dbContext.Services.FirstOrDefaultAsync(x => x.IdSer == IdSer);
+            return await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == Id);
         }
 
 

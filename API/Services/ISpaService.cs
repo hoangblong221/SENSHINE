@@ -8,12 +8,12 @@ namespace API.Services
         Task<List<Service>> GetAllServiceAsync();
 
         //tim kiem service theo id
-        Task<Service> FindServiceWithItsId(int IdSer);
+        Task<Service> FindServiceWithItsId(int Id);
         //them 1 service moi
         Task<Service> CreateServiceAsync(Service services);
         //edit 1 service 
-        Task<Service> EditServiceAsync(int IdSer, Service services);
+        Task<Service> EditServiceAsync(int Id, Service services);
         //xoa 1 service
-        Task<Service> DeleteServiceAsync(int IdSer);
+        Task<Service> DeleteServiceAsync(int Id);
     }
 }

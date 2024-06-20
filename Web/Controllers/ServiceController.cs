@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 using Web.Models;
 
 namespace Web.Controllers
@@ -27,33 +28,61 @@ namespace Web.Controllers
             return View(servicesList);
         }
 
-        //public async Task<IActionResult> ServiceDetails(int IdSer)
-        //{
-        //    try
-        //    {
-        //        HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Service/GetById/{IdSer}");
+        // GET: Service/Details/{id}
+        [HttpGet]
+        public async Task<IActionResult> ServiceDetails(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("ID Service không hợp lệ");
+            }
 
-        //        if (response.IsSuccessStatusCode)
-        //        {
-        //            string data = await response.Content.ReadAsStringAsync();
-        //            ServiceDetails service = JsonConvert.DeserializeObject<ServiceViewModel>(data);
+            ServiceViewModel service = null;
+            HttpResponseMessage response = await _httpClient.GetAsync(_httpClient.BaseAddress + $"/Service/GetByID?IdSer={id}");
 
-        //            // Hiển thị view với thông tin chi tiết sản phẩm
-        //            return View(service);
-        //        }
-        //        else
-        //        {
-        //            // Xử lý trường hợp không tìm thấy sản phẩm
-        //            TempData["errorMessage"] = $"Not found Service with id {IdSer}";
-        //            return View();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Xử lý trường hợp gặp lỗi
-        //        TempData["errorMessage"] = ex.Message;
-        //        return View();
-        //    }
-        //}
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                service = JsonConvert.DeserializeObject<ServiceViewModel>(data);
+            }
+
+            if (service == null)
+            {
+                return NotFound("Không tìm thấy dịch vụ");
+            }
+
+            return View(service);
+        }
+        // GET: Service/Create
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Service/Create
+        [HttpPost]
+        public async Task<IActionResult> CreateService(ServiceViewModel service)
+        {
+            if (ModelState.IsValid)
+            {
+                var json = JsonConvert.SerializeObject(service);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _httpClient.PostAsync(_httpClient.BaseAddress + $"/Service/Create", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("ServiceList");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "An error occurred while creating the service.");
+                    return View(service);
+                }
+            }
+
+            return View(service);
+        }
     }
 }
