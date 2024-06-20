@@ -1,8 +1,9 @@
 ﻿using API.Models;
+using System.ComponentModel;
 
-namespace API.Dtos
+namespace Web.Models
 {
-    public class CardDTO
+    public class CardViewModel
     {
         public int Id { get; set; }
         public string CardNumber { get; set; } = null!;
