@@ -6,7 +6,8 @@ namespace API.Ultils
     {
         public static DateTime ParseDateTimeLikeSSMS(string dateString)
         {
-            string format = "yyyy-MM-dd'T'HH:mm:ss"; // Adjust format based on your string
+            //'T'HH: mm: ss
+            string format = "yyyy-MM-dd"; // Adjust format based on your string
             DateTime convertedDateTime;
             convertedDateTime = DateTime.ParseExact(dateString, format, CultureInfo.InvariantCulture);
             return convertedDateTime;

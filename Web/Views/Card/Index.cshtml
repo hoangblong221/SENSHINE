@@ -1,15 +1,27 @@
 ﻿@model IEnumerable<Web.Models.CardViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "card management";
 }
-
-<h1>Index</h1>
 
 <form method="get" asp-action="Index">
     <label for="searchInput">Search:</label>
     <input type="text" id="searchInput" name="searchInput" />
     <button type="submit">Search</button>
+</form>
+
+<form method="get" asp-action="Index">
+    <div class="filter-container">
+        <label for="sort">Sort By Date:</label>
+
+        <label for="dateFrom">From:</label>
+        <input type="date" id="dateFrom" name="dateFrom">
+
+        <label for="dateTo">To:</label>
+        <input type="date" id="dateTo" name="dateTo">
+
+        <button type="submit">Sort & Filter</button>
+    </div>
 </form>
 
 <p>
@@ -41,9 +53,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.InvoiceId)
             </th>
             <th></th>
         </tr>
@@ -77,9 +86,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.TotalPrice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.InvoiceId)
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |

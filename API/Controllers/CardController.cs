@@ -54,7 +54,7 @@ namespace API.Controllers
             if (!_cardService.CardExistNumNamePhone(input))
                 return NotFound();
 
-            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCardNumNamePhone(input));
+            var cards = _cardService.GetCardNumNamePhone(input);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

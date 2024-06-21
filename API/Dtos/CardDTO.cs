@@ -14,6 +14,6 @@ namespace API.Dtos
         public string? Phone { get; set; }
 
         public List<string>? ComboName { get; set; }
-        public int InvoiceId { get; set; }
+        public List<int>? InvoiceId { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using API.Models;
+﻿using API.Dtos;
+using API.Models;
 
 namespace API.Services
 {
@@ -6,7 +7,7 @@ namespace API.Services
     {
         ICollection<Card> GetCards();
         Card GetCard(int id);
-        ICollection<Card> GetCardNumNamePhone(string input);
+        ICollection<CardDTO> GetCardNumNamePhone(string input);
         ICollection<Card> SortCardByDate(string dateFrom, string dateTo);
         bool CardExist(int id);
         bool CardExistNumNamePhone(string input);
