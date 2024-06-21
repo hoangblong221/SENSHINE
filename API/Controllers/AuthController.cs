@@ -22,9 +22,21 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginRequest model)
+        public async Task<IActionResult> Login(UserLoginDto model)
         {
             var user = await _userService.Authenticate(model.Username, model.Password);
+
+            if (user == null)
+                return Unauthorized();
+
+            var tokenString = GenerateJwtToken(user);
+            return Ok(new { Token = tokenString });
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserDto model)
+        {
+            var user = await _userService.AddUser(model.UserName, model.Password, model.FirstName, model.MidName, model.LastName, model.BirthDate, model.ProvinceCode, model.DistrictCode, model.WardCode);
 
             if (user == null)
                 return Unauthorized();

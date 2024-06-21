@@ -17,6 +17,7 @@ namespace API.Models
         public int CustomerId { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? Status { get; set; }
+        public decimal? TotalPrice { get; set; }
 
         public virtual User Customer { get; set; } = null!;
 
