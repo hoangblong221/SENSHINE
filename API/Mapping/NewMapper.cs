@@ -4,13 +4,16 @@ using AutoMapper;
 
 namespace API.Mapping
 {
-    public class NewsMapper : Profile
+    public class NewMapper : Profile
     {
-        public NewsMapper()
-        {
+        public NewMapper()
+        {   // News Automapper
             CreateMap<News, NewsDTO>().ReverseMap();
             CreateMap<News, NewsDTORequest>()
                 .ForMember(dest => dest.PublishedDate, opt => opt.MapFrom(src => src.PublishedDate.ToString("yyyy/MM/dd"))).ReverseMap();
+            // Promotions Automapper
+            CreateMap<Promotion, PromotionDTO>().ReverseMap();
+            CreateMap<Promotion, PromotionDTORequest>().ReverseMap();
         }
     }
 }
