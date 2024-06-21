@@ -16,6 +16,7 @@ namespace API.Dtos
         public string? FirstName { get; set; }
         public string? MidName { get; set; }
         public string? LastName { get; set; }
+        public string? Phone { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? ProvinceCode { get; set; }
         public string? DistrictCode { get; set; }
@@ -38,6 +39,7 @@ namespace API.Dtos
         public string? FirstName { get; set; }
         public string? MidName { get; set; }
         public string? LastName { get; set; }
+        public string? Phone { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? ProvinceCode { get; set; }
         public string? DistrictCode { get; set; }
@@ -51,6 +53,7 @@ namespace API.Dtos
         public string? FirstName { get; set; }
         public string? MidName { get; set; }
         public string? LastName { get; set; }
+        public string? Phone { get; set; }
         public DateTime? BirthDate { get; set; }
         public string? ProvinceCode { get; set; }
         public string? DistrictCode { get; set; }

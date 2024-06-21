@@ -23,7 +23,6 @@ namespace API.Models
         public virtual DbSet<Card> Cards { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Combo> Combos { get; set; } = null!;
-        public virtual DbSet<ComboService> ComboServices { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Image> Images { get; set; } = null!;
         public virtual DbSet<Invoice> Invoices { get; set; } = null!;
@@ -116,23 +115,23 @@ namespace API.Models
                     .WithMany(p => p.AppointmentCustomers)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Appointme__Custo__27C3E46E");
+                    .HasConstraintName("FK__Appointme__Custo__1B29035F");
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.AppointmentEmployees)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Appointme__Emplo__28B808A7");
+                    .HasConstraintName("FK__Appointme__Emplo__1C1D2798");
 
                 entity.HasMany(d => d.Products)
                     .WithMany(p => p.Appointments)
                     .UsingEntity<Dictionary<string, object>>(
                         "AppointmentProduct",
-                        l => l.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Produ__30592A6F"),
-                        r => r.HasOne<Appointment>().WithMany().HasForeignKey("AppointmentId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Appoi__2F650636"),
+                        l => l.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Produ__23BE4960"),
+                        r => r.HasOne<Appointment>().WithMany().HasForeignKey("AppointmentId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Appoi__22CA2527"),
                         j =>
                         {
-                            j.HasKey("AppointmentId", "ProductId").HasName("PK__Appointm__458D30AE6B8B49C3");
+                            j.HasKey("AppointmentId", "ProductId").HasName("PK__Appointm__458D30AE78BEEE95");
 
                             j.ToTable("Appointment_Product");
                         });
@@ -141,11 +140,11 @@ namespace API.Models
                     .WithMany(p => p.Appointments)
                     .UsingEntity<Dictionary<string, object>>(
                         "AppointmentService",
-                        l => l.HasOne<Service>().WithMany().HasForeignKey("ServiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Servi__2C88998B"),
-                        r => r.HasOne<Appointment>().WithMany().HasForeignKey("AppointmentId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Appoi__2B947552"),
+                        l => l.HasOne<Service>().WithMany().HasForeignKey("ServiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Servi__1FEDB87C"),
+                        r => r.HasOne<Appointment>().WithMany().HasForeignKey("AppointmentId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Appointme__Appoi__1EF99443"),
                         j =>
                         {
-                            j.HasKey("AppointmentId", "ServiceId").HasName("PK__Appointm__329C47C2B846F4B4");
+                            j.HasKey("AppointmentId", "ServiceId").HasName("PK__Appointm__329C47C2C567953A");
 
                             j.ToTable("Appointment_Service");
                         });
@@ -172,11 +171,13 @@ namespace API.Models
 
                 entity.Property(e => e.Status).HasMaxLength(50);
 
+                entity.Property(e => e.TotalPrice).HasColumnType("decimal(15, 2)");
+
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Cards)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Card__CustomerId__79FD19BE");
+                    .HasConstraintName("FK__Card__CustomerId__6E565CE8");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -194,13 +195,13 @@ namespace API.Models
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
-                entity.Property(e => e.Note)
-                    .HasMaxLength(1000)
-                    .HasColumnName("note");
+                entity.Property(e => e.Discount).HasColumnType("decimal(8, 2)");
 
-                entity.Property(e => e.OriginalPrice)
-                    .HasColumnType("decimal(15, 2)")
-                    .HasDefaultValueSql("((0))");
+                entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.Note).HasMaxLength(50);
+
+                entity.Property(e => e.Price).HasColumnType("decimal(15, 2)");
 
                 entity.Property(e => e.SalePrice).HasColumnType("decimal(15, 2)");
 
@@ -208,34 +209,27 @@ namespace API.Models
                     .WithMany(p => p.Combos)
                     .UsingEntity<Dictionary<string, object>>(
                         "CardCombo",
-                        l => l.HasOne<Card>().WithMany().HasForeignKey("CardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Card_Comb__CardI__00AA174D"),
-                        r => r.HasOne<Combo>().WithMany().HasForeignKey("ComboId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Card_Comb__Combo__7FB5F314"),
+                        l => l.HasOne<Card>().WithMany().HasForeignKey("CardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Card_Comb__CardI__740F363E"),
+                        r => r.HasOne<Combo>().WithMany().HasForeignKey("ComboId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Card_Comb__Combo__731B1205"),
                         j =>
                         {
-                            j.HasKey("ComboId", "CardId").HasName("PK__Card_Com__281DB4F43379DC2D");
+                            j.HasKey("ComboId", "CardId").HasName("PK__Card_Com__281DB4F4FE75E03A");
 
                             j.ToTable("Card_Combo");
                         });
-            });
 
-            modelBuilder.Entity<ComboService>(entity =>
-            {
-                entity.HasKey(e => new { e.ComboId, e.ServiceId })
-                    .HasName("PK__Combo_Se__6113E32E99280204");
+                entity.HasMany(d => d.Services)
+                    .WithMany(p => p.Combos)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "ComboService",
+                        l => l.HasOne<Service>().WithMany().HasForeignKey("ServiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Combo_Ser__Servi__77DFC722"),
+                        r => r.HasOne<Combo>().WithMany().HasForeignKey("ComboId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Combo_Ser__Combo__76EBA2E9"),
+                        j =>
+                        {
+                            j.HasKey("ComboId", "ServiceId").HasName("PK__Combo_Se__6113E32E9F1A28E8");
 
-                entity.ToTable("Combo_Service");
-
-                entity.HasOne(d => d.Combo)
-                    .WithMany(p => p.ComboServices)
-                    .HasForeignKey(d => d.ComboId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Combo_Ser__Combo__038683F8");
-
-                entity.HasOne(d => d.Service)
-                    .WithMany(p => p.ComboServices)
-                    .HasForeignKey(d => d.ServiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Combo_Ser__Servi__047AA831");
+                            j.ToTable("Combo_Service");
+                        });
             });
 
             modelBuilder.Entity<District>(entity =>
@@ -318,27 +312,27 @@ namespace API.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Invoice__Custome__436BFEE3");
+                    .HasConstraintName("FK__Invoice__Custome__36D11DD4");
 
                 entity.HasOne(d => d.Promotion)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.PromotionId)
-                    .HasConstraintName("FK__Invoice__Promoti__4460231C");
+                    .HasConstraintName("FK__Invoice__Promoti__37C5420D");
 
                 entity.HasOne(d => d.Spa)
                     .WithMany(p => p.Invoices)
                     .HasForeignKey(d => d.SpaId)
-                    .HasConstraintName("FK__Invoice__SpaId__4277DAAA");
+                    .HasConstraintName("FK__Invoice__SpaId__35DCF99B");
 
                 entity.HasMany(d => d.Cards)
                     .WithMany(p => p.Invoices)
                     .UsingEntity<Dictionary<string, object>>(
                         "InvoiceCard",
-                        l => l.HasOne<Card>().WithMany().HasForeignKey("CardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_C__CardI__4C0144E4"),
-                        r => r.HasOne<Invoice>().WithMany().HasForeignKey("InvoiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_C__Invoi__4B0D20AB"),
+                        l => l.HasOne<Card>().WithMany().HasForeignKey("CardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_C__CardI__3F6663D5"),
+                        r => r.HasOne<Invoice>().WithMany().HasForeignKey("InvoiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_C__Invoi__3E723F9C"),
                         j =>
                         {
-                            j.HasKey("InvoiceId", "CardId").HasName("PK__Invoice___22C9466FDA15B667");
+                            j.HasKey("InvoiceId", "CardId").HasName("PK__Invoice___22C9466F894AA048");
 
                             j.ToTable("Invoice_Card");
                         });
@@ -347,11 +341,11 @@ namespace API.Models
                     .WithMany(p => p.Invoices)
                     .UsingEntity<Dictionary<string, object>>(
                         "InvoiceService",
-                        l => l.HasOne<Service>().WithMany().HasForeignKey("ServiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_S__Servi__4830B400"),
-                        r => r.HasOne<Invoice>().WithMany().HasForeignKey("InvoiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_S__Invoi__473C8FC7"),
+                        l => l.HasOne<Service>().WithMany().HasForeignKey("ServiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_S__Servi__3B95D2F1"),
+                        r => r.HasOne<Invoice>().WithMany().HasForeignKey("InvoiceId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Invoice_S__Invoi__3AA1AEB8"),
                         j =>
                         {
-                            j.HasKey("InvoiceId", "ServiceId").HasName("PK__Invoice___6BC711B527076978");
+                            j.HasKey("InvoiceId", "ServiceId").HasName("PK__Invoice___6BC711B5AB861D7B");
 
                             j.ToTable("Invoice_Service");
                         });
@@ -383,7 +377,7 @@ namespace API.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Notifications)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Notificat__UserI__3BCADD1B");
+                    .HasConstraintName("FK__Notificat__UserI__2F2FFC0C");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -400,11 +394,11 @@ namespace API.Models
                     .WithMany(p => p.Products)
                     .UsingEntity<Dictionary<string, object>>(
                         "ProductCategory",
-                        l => l.HasOne<Category>().WithMany().HasForeignKey("CategoryId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductCa__Categ__2022C2A6"),
-                        r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductCa__Produ__1F2E9E6D"),
+                        l => l.HasOne<Category>().WithMany().HasForeignKey("CategoryId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductCa__Categ__1387E197"),
+                        r => r.HasOne<Product>().WithMany().HasForeignKey("ProductId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__ProductCa__Produ__1293BD5E"),
                         j =>
                         {
-                            j.HasKey("ProductId", "CategoryId").HasName("PK__ProductC__159C556D03A3C49B");
+                            j.HasKey("ProductId", "CategoryId").HasName("PK__ProductC__159C556D6725592C");
 
                             j.ToTable("ProductCategories");
                         });
@@ -436,7 +430,7 @@ namespace API.Models
                 entity.HasOne(d => d.Spa)
                     .WithMany(p => p.Promotions)
                     .HasForeignKey(d => d.SpaId)
-                    .HasConstraintName("FK__Promotion__SpaId__3EA749C6");
+                    .HasConstraintName("FK__Promotion__SpaId__320C68B7");
             });
 
             modelBuilder.Entity<Province>(entity =>
@@ -498,12 +492,12 @@ namespace API.Models
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK__Reviews__Custome__3429BB53");
+                    .HasConstraintName("FK__Reviews__Custome__278EDA44");
 
                 entity.HasOne(d => d.Service)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.ServiceId)
-                    .HasConstraintName("FK__Reviews__Service__351DDF8C");
+                    .HasConstraintName("FK__Reviews__Service__2882FE7D");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -527,11 +521,11 @@ namespace API.Models
                     .WithMany(p => p.Rooms)
                     .UsingEntity<Dictionary<string, object>>(
                         "RoomBed",
-                        l => l.HasOne<Bed>().WithMany().HasForeignKey("BedId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Room_Bed__BedId__15A53433"),
-                        r => r.HasOne<Room>().WithMany().HasForeignKey("RoomId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Room_Bed__RoomId__14B10FFA"),
+                        l => l.HasOne<Bed>().WithMany().HasForeignKey("BedId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Room_Bed__BedId__090A5324"),
+                        r => r.HasOne<Room>().WithMany().HasForeignKey("RoomId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Room_Bed__RoomId__08162EEB"),
                         j =>
                         {
-                            j.HasKey("RoomId", "BedId").HasName("PK__Room_Bed__280C483DF9B6F098");
+                            j.HasKey("RoomId", "BedId").HasName("PK__Room_Bed__280C483DE7BD0CCA");
 
                             j.ToTable("Room_Bed");
                         });
@@ -551,7 +545,7 @@ namespace API.Models
                     .WithMany(p => p.Salaries)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Salary__Employee__753864A1");
+                    .HasConstraintName("FK__Salary__Employee__6991A7CB");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -594,11 +588,11 @@ namespace API.Models
                     .WithMany(p => p.Spas)
                     .UsingEntity<Dictionary<string, object>>(
                         "SpaRoom",
-                        l => l.HasOne<Room>().WithMany().HasForeignKey("RoomId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Spa_Room__RoomId__0FEC5ADD"),
-                        r => r.HasOne<Spa>().WithMany().HasForeignKey("SpaId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Spa_Room__SpaId__0EF836A4"),
+                        l => l.HasOne<Room>().WithMany().HasForeignKey("RoomId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Spa_Room__RoomId__035179CE"),
+                        r => r.HasOne<Spa>().WithMany().HasForeignKey("SpaId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Spa_Room__SpaId__025D5595"),
                         j =>
                         {
-                            j.HasKey("SpaId", "RoomId").HasName("PK__Spa_Room__40685EAB0476A3CE");
+                            j.HasKey("SpaId", "RoomId").HasName("PK__Spa_Room__40685EAB87AD8F1C");
 
                             j.ToTable("Spa_Room");
                         });
@@ -647,7 +641,11 @@ namespace API.Models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)
-                    .HasMaxLength(255)
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(50)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ProvinceCode)
@@ -668,11 +666,11 @@ namespace API.Models
                     .WithMany(p => p.Customers)
                     .UsingEntity<Dictionary<string, object>>(
                         "CustomerCard",
-                        l => l.HasOne<Card>().WithMany().HasForeignKey("CardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Customer___CardI__084B3915"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Customer___Custo__075714DC"),
+                        l => l.HasOne<Card>().WithMany().HasForeignKey("CardId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Customer___CardI__7BB05806"),
+                        r => r.HasOne<User>().WithMany().HasForeignKey("CustomerId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__Customer___Custo__7ABC33CD"),
                         j =>
                         {
-                            j.HasKey("CustomerId", "CardId").HasName("PK__Customer__51F188029C3C9B92");
+                            j.HasKey("CustomerId", "CardId").HasName("PK__Customer__51F188029EE3F106");
 
                             j.ToTable("Customer_Card");
                         });
@@ -681,11 +679,11 @@ namespace API.Models
                     .WithMany(p => p.Users)
                     .UsingEntity<Dictionary<string, object>>(
                         "UserRole",
-                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__User_Role__RoleI__725BF7F6"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__User_Role__UserI__7167D3BD"),
+                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__User_Role__RoleI__66B53B20"),
+                        r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__User_Role__UserI__65C116E7"),
                         j =>
                         {
-                            j.HasKey("UserId", "RoleId").HasName("PK__User_Rol__AF2760AD5CF34191");
+                            j.HasKey("UserId", "RoleId").HasName("PK__User_Rol__AF2760AD8EA6776A");
 
                             j.ToTable("User_Role");
                         });
@@ -756,7 +754,7 @@ namespace API.Models
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.WorkSchedules)
                     .HasForeignKey(d => d.EmployeeId)
-                    .HasConstraintName("FK__WorkSched__Emplo__37FA4C37");
+                    .HasConstraintName("FK__WorkSched__Emplo__2B5F6B28");
             });
 
             OnModelCreatingPartial(modelBuilder);
