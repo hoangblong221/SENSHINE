@@ -10,7 +10,7 @@ using System.Text;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
         private readonly IUserService _userService;
