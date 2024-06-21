@@ -5,7 +5,6 @@ namespace Web.Models
 {
     public class CardViewModel
     {
-        public int Id { get; set; }
         public string CardNumber { get; set; } = null!;
         public DateTime? CreateDate { get; set; }
         public string? Status { get; set; }

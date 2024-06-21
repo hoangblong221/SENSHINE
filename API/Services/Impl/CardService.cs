@@ -71,5 +71,34 @@ namespace API.Services.Impl
             return _context.Cards.Any(c => c.CreateDate <= parsedDateTo
                                         && c.CreateDate >= parsedDateFrom);
         }
+
+        public bool CreateCard(int CustomerId, ICollection<int> ComboId, Card card)
+        {
+            var customer = _context.Users.Where(u => u.Id == CustomerId).FirstOrDefault();
+
+            var comboList = new List<Combo>();
+
+            foreach (int id in ComboId)
+            {
+                var combo = _context.Combos.Where(c => c.Id == id).FirstOrDefault();
+                comboList.Add(combo);
+            }
+
+            card = new Card()
+            {
+                CustomerId = customer.Id,
+                Combos = comboList,
+            };
+
+            _context.Add(card);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
