@@ -29,6 +29,7 @@ namespace API
             builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<INewsService, NewsService>();
             builder.Services.AddAutoMapper(typeof(NewsMapper));
+
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
             {
