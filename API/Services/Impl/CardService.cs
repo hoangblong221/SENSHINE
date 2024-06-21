@@ -4,6 +4,8 @@ using Microsoft.Data.SqlClient.Server;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 using API.Ultils;
+using API.Dtos;
+using AutoMapper;
 
 
 namespace API.Services.Impl
@@ -11,10 +13,13 @@ namespace API.Services.Impl
     public class CardService : ICardService
     {
         private readonly SenShineSpaContext _context;
+        private readonly IMapper _mapper;
 
-        public CardService(SenShineSpaContext context)
+        public CardService(SenShineSpaContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
+
         }
         public ICollection<Card> GetCards()
         {
@@ -26,13 +31,13 @@ namespace API.Services.Impl
             return _context.Cards.Include(c => c.Customer).Include(s => s.Combos).Where(c => c.Id == id).FirstOrDefault();
         }
 
-        public ICollection<Card> GetCardNumNamePhone(string input)
+        public ICollection<CardDTO> GetCardNumNamePhone(string input)
         {
-            return _context.Cards.Include(c => c.Customer).Include(s => s.Combos).Where(c => c.CardNumber.Contains(input)
-                                                                                            || c.Customer.FirstName.Contains(input)
-                                                                                            || c.Customer.MidName.Contains(input)
-                                                                                            || c.Customer.LastName.Contains(input)
-                                                                                            || c.Customer.Phone.Contains(input)).ToList();
+            input = input.ToLower();
+            var cards = _mapper.Map<List<CardDTO>>(_context.Cards.Include(c => c.Customer).Include(s => s.Combos));
+            return cards.Where(c => c.CardNumber.ToLower().Contains(input)
+                                 || c.CustomerName.ToLower().Contains(input)
+                                 || c.Phone.Contains(input)).ToList();
         }
 
         public ICollection<Card> SortCardByDate(string dateFrom, string dateTo)
@@ -40,8 +45,8 @@ namespace API.Services.Impl
             DateTime parsedDateFrom = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateFrom);
             DateTime parsedDateTo = FormatDateTimeUtils.ParseDateTimeLikeSSMS(dateTo);
 
-            return _context.Cards.Include(c => c.Customer).Include(s => s.Combos).Where(c => c.CreateDate <= parsedDateTo
-                                                                                          && c.CreateDate >= parsedDateFrom).ToList();
+            return _context.Cards.Include(c => c.Customer).Include(s => s.Combos).Where(c => c.CreateDate >= parsedDateFrom
+                                                                                          && c.CreateDate <= parsedDateTo).ToList();
         }
 
         public bool CardExist(int id)
@@ -51,11 +56,11 @@ namespace API.Services.Impl
 
         public bool CardExistNumNamePhone(string input)
         {
-            return _context.Cards.Any(c => c.CardNumber.Contains(input)
-                                        || c.Customer.FirstName.Contains(input)
-                                        || c.Customer.MidName.Contains(input)
-                                        || c.Customer.LastName.Contains(input)
-                                        || c.Customer.Phone.Contains(input));
+            input = input.ToLower();
+            var cards = _mapper.Map<List<CardDTO>>(_context.Cards.Include(c => c.Customer).Include(s => s.Combos));
+            return cards.Any(c => c.CardNumber.ToLower().Contains(input)
+                               || c.CustomerName.ToLower().Contains(input)
+                               || c.Phone.Contains(input));
         }
 
         public bool CardExistByDate(string dateFrom, string dateTo)
@@ -65,6 +70,35 @@ namespace API.Services.Impl
 
             return _context.Cards.Any(c => c.CreateDate <= parsedDateTo
                                         && c.CreateDate >= parsedDateFrom);
+        }
+
+        public bool CreateCard(int CustomerId, ICollection<int> ComboId, Card card)
+        {
+            var customer = _context.Users.Where(u => u.Id == CustomerId).FirstOrDefault();
+
+            var comboList = new List<Combo>();
+
+            foreach (int id in ComboId)
+            {
+                var combo = _context.Combos.Where(c => c.Id == id).FirstOrDefault();
+                comboList.Add(combo);
+            }
+
+            card = new Card()
+            {
+                CustomerId = customer.Id,
+                Combos = comboList,
+            };
+
+            _context.Add(card);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }
