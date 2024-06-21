@@ -1,5 +1,4 @@
-
-﻿@model IEnumerable<Web.Models.NewsViewModel>
+@model IEnumerable<Web.Models.NewsViewModel>
 
 <div class="card">
     <div class="card-body">
@@ -14,8 +13,6 @@
                 </div>
                 <a class="btn btn-primary" href="@Url.Action("AddNews", "News")"><i class="fa fa-plus"></i>Add News</a>
             </div>
-
-
             <div class="collapse" id="collapseProduct">
                 <div class="card card-body list-product-body">
                     <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 row-cols-2 g-3">
@@ -69,9 +66,7 @@
             </table>
         </div>
     </div>
-
 </div>
-
 
 <script>
     function confirmDelete(id) {
