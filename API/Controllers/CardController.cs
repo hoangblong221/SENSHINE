@@ -54,7 +54,7 @@ namespace API.Controllers
             if (!_cardService.CardExistNumNamePhone(input))
                 return NotFound();
 
-            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCardNumNamePhone(input));
+            var cards = _cardService.GetCardNumNamePhone(input);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -74,6 +74,33 @@ namespace API.Controllers
                 return BadRequest(ModelState);
 
             return Ok(cards);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCard([FromQuery] int CustomerId, [FromQuery] ICollection<int> ComboId, [FromQuery] CardDTO cardCreate)
+        {
+            if (cardCreate == null)
+                return BadRequest(ModelState);
+
+            var cards = _cardService.GetCards().Where(c => c.CardNumber.Trim().ToUpper() == cardCreate.CardNumber.Trim().ToUpper()).FirstOrDefault();
+            if (cards != null)
+            {
+                ModelState.AddModelError("", "Card already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var cardMap = _mapper.Map<Card>(cardCreate);
+
+            if (!_cardService.CreateCard(CustomerId, ComboId, cardMap))
+            {
+                ModelState.AddModelError("", "Something wrong while saving");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Successfully created");
         }
     }
 }
