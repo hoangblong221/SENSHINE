@@ -72,7 +72,7 @@ namespace API.Services.Impl
                                         && c.CreateDate >= parsedDateFrom);
         }
 
-        public bool CreateCard(int CustomerId, ICollection<int> ComboId, Card card)
+        public bool CreateCard(Card card, int CustomerId, ICollection<int> ComboId)
         {
             var customer = _context.Users.Where(u => u.Id == CustomerId).FirstOrDefault();
 
@@ -84,13 +84,19 @@ namespace API.Services.Impl
                 comboList.Add(combo);
             }
 
-            card = new Card()
+            Card cardNew = new Card()
             {
-                CustomerId = customer.Id,
+                CardNumber = card.CardNumber,
+                CustomerId = CustomerId,
+                CreateDate = card.CreateDate,
+                Status = card.Status,
+                TotalPrice = card.TotalPrice,
                 Combos = comboList,
+                Customer = customer,
+                Invoices = null
             };
 
-            _context.Add(card);
+            _context.Add(cardNew);
 
             return Save();
         }

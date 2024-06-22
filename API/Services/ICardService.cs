@@ -12,7 +12,7 @@ namespace API.Services
         bool CardExist(int id);
         bool CardExistNumNamePhone(string input);
         bool CardExistByDate(string dateFrom, string dateTo);
-        bool CreateCard(int CustomerId, ICollection<int> ComboId, Card card);
+        bool CreateCard(Card card, int CustomerId, ICollection<int> ComboId);
         bool Save();
     }
 }

@@ -77,7 +77,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCard([FromQuery] int CustomerId, [FromQuery] ICollection<int> ComboId, [FromQuery] CardDTO cardCreate)
+        public async Task<IActionResult> CreateCard([FromQuery] CreateCardDTO cardCreate, [FromQuery] int CustomerId, [FromQuery] ICollection<int> ComboId)
         {
             if (cardCreate == null)
                 return BadRequest(ModelState);
@@ -94,7 +94,7 @@ namespace API.Controllers
 
             var cardMap = _mapper.Map<Card>(cardCreate);
 
-            if (!_cardService.CreateCard(CustomerId, ComboId, cardMap))
+            if (!_cardService.CreateCard(cardMap, CustomerId, ComboId))
             {
                 ModelState.AddModelError("", "Something wrong while saving");
                 return StatusCode(500, ModelState);

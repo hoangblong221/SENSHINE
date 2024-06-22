@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System.Security.Policy;
 using Web.Models;
 using API.Ultils;
+using System.Text;
 
 namespace Web.Controllers
 {
@@ -19,7 +20,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string searchInput, DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> Index(string searchInput, DateTime? dateFrom, DateTime? dateTo)
         {
             List<CardViewModel> Cards = new List<CardViewModel>();
             HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Card/GetCards").Result;
@@ -41,6 +42,33 @@ namespace Web.Controllers
             }
 
             return View(Cards);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCard(string cardNumber, DateTime? createDate, string status, decimal totalPrice, int customerId, List<int> comboId)
+        {
+            CardCreateModel card = new CardCreateModel()
+            {
+                CardNumber = cardNumber,
+                CreateDate = createDate,
+                Status = status,
+                TotalPrice = totalPrice,
+            };
+
+            string comboIdList = "";
+
+            foreach (var item in comboId)
+            {
+                comboIdList = comboIdList + "&ComboId=" + item.ToString();
+            }
+
+            string data = "?CardNumber=" + cardNumber + "&CreateDate=" + createDate + "&Status=" + status + "&TotalPrice=" + totalPrice + "&CustomerId=" + customerId + "&ComboId=" + comboIdList;
+
+            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+            HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/Card/CreateCard", content);
+
+            return Ok(response);
         }
     }
 }

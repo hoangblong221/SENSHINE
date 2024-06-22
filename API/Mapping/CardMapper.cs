@@ -13,7 +13,7 @@ namespace API.Mapping
                 .ForMember(dest => dest.Phone, opt => opt.MapFrom(src => src.Customer.Phone))
                 .ForMember(dest => dest.ComboName, opt => opt.MapFrom(src => src.Combos.Select(s => s.Name).ToList()))
                 .ForMember(dest => dest.InvoiceId, opt => opt.MapFrom(src => src.Invoices.Select(s => s.Id).ToList()));
-            CreateMap<CardDTO, Card>();
+            CreateMap<CreateCardDTO, Card>();
         }
     }
 }
