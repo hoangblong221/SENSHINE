@@ -29,10 +29,12 @@ namespace API
             builder.Services.AddScoped<ISpaService, SpaService>();
             builder.Services.AddScoped<INewsService, NewsService>();
             builder.Services.AddScoped<ICardService, CardService>();
-
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IPromotionService, PromotionService>();
             builder.Services.AddAutoMapper(typeof(NewMapper));
-
+            builder.Services.AddAutoMapper(typeof(ProductMapper));
+            builder.Services.AddAutoMapper(typeof(PromotionMapper));
             // Configure JWT authentication
             builder.Services.AddAuthentication(options =>
             {
