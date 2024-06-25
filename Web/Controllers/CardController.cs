@@ -1,10 +1,10 @@
-﻿//using API.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Security.Policy;
 using Web.Models;
-using API.Ultils;
 using System.Text;
+using API.Models;
+using API.Ultils;
+using System.Net.Http;
 
 namespace Web.Controllers
 {
@@ -20,7 +20,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string searchInput, DateTime? dateFrom, DateTime? dateTo)
+        public async Task<IActionResult> ListCard(string searchInput, DateTime? dateFrom, DateTime? dateTo)
         {
             List<CardViewModel> Cards = new List<CardViewModel>();
             HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Card/GetCards").Result;
@@ -44,31 +44,99 @@ namespace Web.Controllers
             return View(Cards);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateCard(string cardNumber, DateTime? createDate, string status, decimal totalPrice, int customerId, List<int> comboId)
+        [HttpGet]
+        public IActionResult CreateCard()
         {
-            CardCreateModel card = new CardCreateModel()
-            {
-                CardNumber = cardNumber,
-                CreateDate = createDate,
-                Status = status,
-                TotalPrice = totalPrice,
-            };
+            return View();
+        }
 
-            string comboIdList = "";
+        [HttpPost]
+        public async Task<IActionResult> CreateCard(CardViewModel card)
+        {
+            string date = card.CreateDate.Value.ToString("yyyy-MM-dd");
+            DateTime date2 = FormatDateTimeUtils.ParseDateTimeLikeSSMS(date);
+            card.CreateDate = date2;
 
-            foreach (var item in comboId)
+            if (ModelState.IsValid)
             {
-                comboIdList = comboIdList + "&ComboId=" + item.ToString();
+                var json = JsonConvert.SerializeObject(card);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/Card/Create", content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("ListCard");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Error");
+                    return View(card);
+                }
             }
 
-            string data = "?CardNumber=" + cardNumber + "&CreateDate=" + createDate + "&Status=" + status + "&TotalPrice=" + totalPrice + "&CustomerId=" + customerId + "&ComboId=" + comboIdList;
+            return View(card);
+        }
 
-            StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+        [HttpGet]
+        public async Task<IActionResult> UpdateCard(int id)
+        {
+            CardViewModel card = null;
+            HttpResponseMessage response = await _client.GetAsync(_client.BaseAddress + "/Card/GetCard?id=" + id);
 
-            HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/Card/CreateCard", content);
+            if (response.IsSuccessStatusCode)
+            {
+                string data = await response.Content.ReadAsStringAsync();
+                card = JsonConvert.DeserializeObject<CardViewModel>(data);
+            }
 
-            return Ok(response);
+            if (card == null)
+            {
+                return NotFound("Thẻ không tồn tại");
+            }
+
+            return View(card);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCard(CardViewModel card)
+        {
+            if (ModelState.IsValid)
+            {
+                var json = JsonConvert.SerializeObject(card);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = await _client.PutAsync(_client.BaseAddress + "/Card/Update?id=" + card.Id, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("ListCard");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Có lỗi xảy ra khi cập nhật thẻ");
+                    return View(card);
+                }
+            }
+
+            return View(card);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ChangeStateCard(int id)
+        {
+            var json = JsonConvert.SerializeObject(id);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await _client.PutAsync(_client.BaseAddress + "/Card/ActiveDeactive?id=" + id, content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction("ListCard");
+            }
+            else
+            {
+                return BadRequest("Có lỗi xảy ra khi xóa dịch vụ.");
+            }
         }
     }
 }

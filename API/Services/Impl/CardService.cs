@@ -31,13 +31,20 @@ namespace API.Services.Impl
             return _context.Cards.Include(c => c.Customer).Include(s => s.Combos).Where(c => c.Id == id).FirstOrDefault();
         }
 
+        public Combo GetCombo(int id)
+        {
+            return _context.Combos.Where(c => c.Id == id).FirstOrDefault();
+        }
+
         public ICollection<CardDTO> GetCardNumNamePhone(string input)
         {
             input = input.ToLower();
             var cards = _mapper.Map<List<CardDTO>>(_context.Cards.Include(c => c.Customer).Include(s => s.Combos));
+
             return cards.Where(c => c.CardNumber.ToLower().Contains(input)
-                                 || c.CustomerName.ToLower().Contains(input)
-                                 || c.Phone.Contains(input)).ToList();
+                                 //|| c.CustomerName.ToLower().Contains(input)
+                                 //|| c.Phone.Contains(input)
+                                 ).ToList();
         }
 
         public ICollection<Card> SortCardByDate(string dateFrom, string dateTo)
@@ -58,9 +65,11 @@ namespace API.Services.Impl
         {
             input = input.ToLower();
             var cards = _mapper.Map<List<CardDTO>>(_context.Cards.Include(c => c.Customer).Include(s => s.Combos));
+
             return cards.Any(c => c.CardNumber.ToLower().Contains(input)
-                               || c.CustomerName.ToLower().Contains(input)
-                               || c.Phone.Contains(input));
+                               //|| c.CustomerName.ToLower().Contains(input)
+                               //|| c.Phone.Contains(input)
+                               );
         }
 
         public bool CardExistByDate(string dateFrom, string dateTo)
@@ -72,39 +81,40 @@ namespace API.Services.Impl
                                         && c.CreateDate >= parsedDateFrom);
         }
 
-        public bool CreateCard(Card card, int CustomerId, ICollection<int> ComboId)
+        public async Task<Card> CreateCard(Card card)
         {
-            var customer = _context.Users.Where(u => u.Id == CustomerId).FirstOrDefault();
+            await _context.Cards.AddAsync(card);
+            await _context.SaveChangesAsync();
 
-            var comboList = new List<Combo>();
-
-            foreach (int id in ComboId)
-            {
-                var combo = _context.Combos.Where(c => c.Id == id).FirstOrDefault();
-                comboList.Add(combo);
-            }
-
-            Card cardNew = new Card()
-            {
-                CardNumber = card.CardNumber,
-                CustomerId = CustomerId,
-                CreateDate = card.CreateDate,
-                Status = card.Status,
-                TotalPrice = card.TotalPrice,
-                Combos = comboList,
-                Customer = customer,
-                Invoices = null
-            };
-
-            _context.Add(cardNew);
-
-            return Save();
+            return card;
         }
 
-        public bool Save()
+        public async Task<Card> UpdateCard(int id, Card card)
         {
-            var saved = _context.SaveChanges();
-            return saved > 0 ? true : false;
+            var cardUpdate = await _context.Cards.FirstOrDefaultAsync(c => c.Id == id);
+            cardUpdate.CustomerId = card.CustomerId;
+            cardUpdate.CreateDate = card.CreateDate;
+            cardUpdate.Status = card.Status;
+            cardUpdate.Combos = card.Combos;
+            await _context.SaveChangesAsync();
+
+            return cardUpdate;
+        }
+
+        public async Task<Card> ActiveDeactiveCard(int id)
+        {
+            var card = await _context.Cards.FirstOrDefaultAsync(c => c.Id == id);
+            if (card.Status == "Active")
+            {
+                card.Status = "Deactive";
+            }
+            else
+            {
+                card.Status = "Active";
+            }
+            await _context.SaveChangesAsync();
+
+            return card;
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using API.Models;
 using AutoMapper;
 using API.Dtos;
+using API.Services.Impl;
 
 namespace API.Controllers
 {
@@ -19,45 +20,40 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        //[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
         public async Task<IActionResult> GetCards()
         {
-            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCards());
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCards());
 
             return Ok(cards);
         }
 
-        //[HttpGet("{id}/byId")]
-        ////[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
-        ////[ProducesResponseType(400)]
-        //public IActionResult GetCard(int id)
-        //{
-        //    if(!_cardService.CardExist(id))
-        //        return NotFound();
+        [HttpGet]
+        public IActionResult GetCard(int id)
+        {
+            if (!_cardService.CardExist(id))
+                return NotFound();
 
-        //    var card = _mapper.Map<CardDTO>(_cardService.GetCard(id));
+            var card = _mapper.Map<CardDTO>(_cardService.GetCard(id));
 
-        //    if(!ModelState.IsValid)
-        //        return BadRequest(ModelState);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-        //    return Ok(card);
-        //}
+            return Ok(card);
+        }
 
         [HttpGet]
-        //[ProducesResponseType(200, Type = typeof(IEnumerable<Card>))]
-        //[ProducesResponseType(400)]
         public async Task<IActionResult> GetCardsByNumNamePhone(string input)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             if (!_cardService.CardExistNumNamePhone(input))
                 return NotFound();
 
             var cards = _cardService.GetCardNumNamePhone(input);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
             return Ok(cards);
         }
@@ -65,42 +61,105 @@ namespace API.Controllers
         [HttpGet]
         public async Task<IActionResult> SortCardByDate(string dateFrom, string dateTo)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             if (!_cardService.CardExistByDate(dateFrom, dateTo))
                 return NotFound();
 
             var cards = _mapper.Map<List<CardDTO>>(_cardService.SortCardByDate(dateFrom, dateTo));
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
             return Ok(cards);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCard([FromQuery] CreateCardDTO cardCreate, [FromQuery] int CustomerId, [FromQuery] ICollection<int> ComboId)
+        public async Task<IActionResult> Create([FromBody] CardDTO cardDTO)
         {
-            if (cardCreate == null)
-                return BadRequest(ModelState);
-
-            var cards = _cardService.GetCards().Where(c => c.CardNumber.Trim().ToUpper() == cardCreate.CardNumber.Trim().ToUpper()).FirstOrDefault();
-            if (cards != null)
-            {
-                ModelState.AddModelError("", "Card already exists");
-                return StatusCode(422, ModelState);
-            }
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var cardMap = _mapper.Map<Card>(cardCreate);
+            var cards = _cardService.GetCards().Where(c => c.CardNumber.Trim().ToUpper() == cardDTO.CardNumber.Trim().ToUpper()).FirstOrDefault();
 
-            if (!_cardService.CreateCard(cardMap, CustomerId, ComboId))
+            if (cards != null)
             {
-                ModelState.AddModelError("", "Something wrong while saving");
-                return StatusCode(500, ModelState);
+                ModelState.AddModelError("", "Thẻ đã tồn tại");
+                return StatusCode(422, ModelState);
             }
 
-            return Ok("Successfully created");
+            try
+            {
+                var cardMap = _mapper.Map<Card>(cardDTO);
+                var createdCard = await _cardService.CreateCard(cardMap);
+
+                return Ok($"Tạo thẻ {createdCard.CardNumber} thành công");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra khi tạo thẻ: {ex.Message}");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(int id, [FromBody] CardDTO cardDTO)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_cardService.CardExist(id))
+                return NotFound();
+
+            try
+            {
+                var existingCard = _cardService.GetCard(id);
+                existingCard.CustomerId = cardDTO.CustomerId;
+                List<Combo> comboList = new List<Combo>();
+
+                foreach (int comboId in cardDTO.ComboId)
+                {
+                    var combo = _cardService.GetCombo(comboId);
+                    comboList.Add(combo);
+                }
+
+                existingCard.Combos = comboList;
+                var cardUpdate = await _cardService.UpdateCard(id, existingCard);
+
+                if (cardUpdate == null)
+                {
+                    return NotFound("Không thể cập nhật thẻ");
+                }
+
+                return Ok($"Cập nhật thẻ {cardUpdate.CardNumber} thành công");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra khi cập nhật thẻ: {ex.Message}");
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ActiveDeactive(int id)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_cardService.CardExist(id))
+                return NotFound();
+
+            try
+            {
+                var cardActive = await _cardService.ActiveDeactiveCard(id);
+
+                if (cardActive == null)
+                {
+                    return NotFound("Không thể chuyển trạng thái thẻ");
+                }
+
+                return Ok($"Chuyển trạng thái thẻ {cardActive.CardNumber} thành công");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Có lỗi xảy ra khi chuyển trạng thái thẻ: {ex.Message}");
+            }
         }
     }
 }

@@ -1,20 +1,25 @@
 ﻿@model Web.Models.CardViewModel
 
 @{
-    ViewData["Title"] = "CreateCard";
+    ViewData["Title"] = "UpdateCard";
 }
 
-<h1>CreateCard</h1>
+<h1>UpdateCard</h1>
 
 <h4>CardViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="CreateCard">
+        <form asp-action="UpdateCard">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Id" class="control-label"></label>
+                <input asp-for="Id" class="form-control" readonly />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="CardNumber" class="control-label"></label>
-                <input asp-for="CardNumber" class="form-control" />
+                <input asp-for="CardNumber" class="form-control" readonly />
                 <span asp-validation-for="CardNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,17 +29,17 @@
             </div>
             <div class="form-group">
                 <label asp-for="CreateDate" class="control-label"></label>
-                <input asp-for="CreateDate" class="form-control" />
+                <input asp-for="CreateDate" class="form-control" readonly />
                 <span asp-validation-for="CreateDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
+                <input asp-for="Status" class="form-control" readonly />
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="TotalPrice" class="control-label"></label>
-                <input asp-for="TotalPrice" class="form-control" />
+                <input asp-for="TotalPrice" class="form-control" readonly />
                 <span asp-validation-for="TotalPrice" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,14 +52,14 @@
                 <span asp-validation-for="ComboId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ListCard">Back to List</a>
+    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
