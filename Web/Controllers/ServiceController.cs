@@ -70,13 +70,13 @@ namespace Web.Controllers
 
             return View(service);
         }
-
+        // POST: Service/Create
         [HttpGet]
         public IActionResult CreateService()
         {
             return View();
         }
-        // POST: Service/Create
+
         [HttpPost]
         public async Task<IActionResult> CreateService(ServiceViewModel service)
         {
@@ -89,7 +89,7 @@ namespace Web.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("ServiceList");
+                    return RedirectToAction("ListService");
                 }
                 else
                 {
@@ -100,7 +100,7 @@ namespace Web.Controllers
 
             return View(service);
         }
-
+        //EDIT SERVICE
         [HttpGet]
         public async Task<IActionResult> EditService(int id)
         {
@@ -138,7 +138,7 @@ namespace Web.Controllers
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("ServiceList");
+                    return RedirectToAction("ListService");
                 }
                 else
                 {
@@ -150,7 +150,7 @@ namespace Web.Controllers
             return View(service);
         }
 
-        // POST: Service/DeleteService/{id}
+        // Delete: Service/DeleteService/{id}
         [HttpPost]
         public async Task<IActionResult> DeleteService(int id)
         {

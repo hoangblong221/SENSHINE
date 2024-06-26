@@ -1,5 +1,7 @@
 ﻿@model Web.Models.ServiceViewModel
-
+@{
+    Layout = null;
+}
 @{
     ViewData["Title"] = "EditService";
 }
@@ -40,7 +42,7 @@
 </div>
 
 <div>
-    <a asp-action="ServiceList">Back to List</a>
+    <a asp-action="ListService">Back to List</a>
 </div>
 
 @section Scripts {
