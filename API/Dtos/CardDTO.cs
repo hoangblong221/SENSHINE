@@ -12,6 +12,6 @@ namespace API.Dtos
         public decimal? TotalPrice { get; set; }
 
         public List<int>? ComboId { get; set; }
-        //public List<int>? InvoiceId { get; set; }
+        public List<int>? InvoiceId { get; set; }
     }
 }

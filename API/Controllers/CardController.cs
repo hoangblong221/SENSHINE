@@ -19,59 +19,6 @@ namespace API.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCards()
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCards());
-
-            return Ok(cards);
-        }
-
-        [HttpGet]
-        public IActionResult GetCard(int id)
-        {
-            if (!_cardService.CardExist(id))
-                return NotFound();
-
-            var card = _mapper.Map<CardDTO>(_cardService.GetCard(id));
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(card);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetCardsByNumNamePhone(string input)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (!_cardService.CardExistNumNamePhone(input))
-                return NotFound();
-
-            var cards = _cardService.GetCardNumNamePhone(input);
-
-            return Ok(cards);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> SortCardByDate(string dateFrom, string dateTo)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            if (!_cardService.CardExistByDate(dateFrom, dateTo))
-                return NotFound();
-
-            var cards = _mapper.Map<List<CardDTO>>(_cardService.SortCardByDate(dateFrom, dateTo));
-
-            return Ok(cards);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CardDTO cardDTO)
         {
@@ -97,6 +44,59 @@ namespace API.Controllers
             {
                 return StatusCode(500, $"Có lỗi xảy ra khi tạo thẻ: {ex.Message}");
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var cards = _mapper.Map<List<CardDTO>>(_cardService.GetCards());
+
+            return Ok(cards);
+        }
+
+        [HttpGet]
+        public IActionResult GetById(int id)
+        {
+            if (!_cardService.CardExist(id))
+                return NotFound();
+
+            var card = _mapper.Map<CardDTO>(_cardService.GetCard(id));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(card);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByNumNamePhone(string input)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_cardService.CardExistByNumNamePhone(input))
+                return NotFound();
+
+            var cards = _cardService.GetCardByNumNamePhone(input);
+
+            return Ok(cards);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SortByDate(string dateFrom, string dateTo)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_cardService.CardExistByDate(dateFrom, dateTo))
+                return NotFound();
+
+            var cards = _mapper.Map<List<CardDTO>>(_cardService.SortCardByDate(dateFrom, dateTo));
+
+            return Ok(cards);
         }
 
         [HttpPut]

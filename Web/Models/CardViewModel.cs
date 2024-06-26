@@ -11,6 +11,6 @@
 
         public List<int>? ComboId { get; set; }
 
-        //public List<int>? InvoiceId { get; set; }
+        public List<int>? InvoiceId { get; set; }
     }
 }

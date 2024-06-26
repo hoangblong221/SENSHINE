@@ -23,16 +23,16 @@ namespace Web.Controllers
         public async Task<IActionResult> ListCard(string searchInput, DateTime? dateFrom, DateTime? dateTo)
         {
             List<CardViewModel> Cards = new List<CardViewModel>();
-            HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Card/GetCards").Result;
+            HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Card/GetAll").Result;
 
             if (dateFrom.HasValue && dateTo.HasValue)
             {
-                response = _client.GetAsync(_client.BaseAddress + "/Card/SortCardByDate?dateFrom=" + dateFrom.Value.ToString("yyyy-MM-dd") + "&dateTo=" + dateTo.Value.ToString("yyyy-MM-dd")).Result;
+                response = _client.GetAsync(_client.BaseAddress + "/Card/SortByDate?dateFrom=" + dateFrom.Value.ToString("yyyy-MM-dd") + "&dateTo=" + dateTo.Value.ToString("yyyy-MM-dd")).Result;
             }
 
             if (!string.IsNullOrEmpty(searchInput))
             {
-                response = _client.GetAsync(_client.BaseAddress + "/Card/GetCardsByNumNamePhone?input=" + searchInput).Result;
+                response = _client.GetAsync(_client.BaseAddress + "/Card/GetByNumNamePhone?input=" + searchInput).Result;
             }
 
             if (response.IsSuccessStatusCode)
@@ -82,7 +82,7 @@ namespace Web.Controllers
         public async Task<IActionResult> UpdateCard(int id)
         {
             CardViewModel card = null;
-            HttpResponseMessage response = await _client.GetAsync(_client.BaseAddress + "/Card/GetCard?id=" + id);
+            HttpResponseMessage response = await _client.GetAsync(_client.BaseAddress + "/Card/GetById?id=" + id);
 
             if (response.IsSuccessStatusCode)
             {
