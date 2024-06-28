@@ -1,6 +1,6 @@
-﻿namespace API.Dtos
+﻿namespace Web.Models
 {
-    public class EmployeeDTO
+    public class EmployeeViewModel
     {
         public int Id { get; set; }
         public string? UserName { get; set; }

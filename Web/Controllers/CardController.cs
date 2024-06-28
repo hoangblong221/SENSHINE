@@ -22,7 +22,7 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ListCard(string searchInput, DateTime? dateFrom, DateTime? dateTo)
         {
-            List<CardViewModel> Cards = new List<CardViewModel>();
+            List<CardViewModel> cards = new List<CardViewModel>();
             HttpResponseMessage response = _client.GetAsync(_client.BaseAddress + "/Card/GetAll").Result;
 
             if (dateFrom.HasValue && dateTo.HasValue)
@@ -38,10 +38,10 @@ namespace Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 string data = response.Content.ReadAsStringAsync().Result;
-                Cards = JsonConvert.DeserializeObject<List<CardViewModel>>(data);
+                cards = JsonConvert.DeserializeObject<List<CardViewModel>>(data);
             }
 
-            return View(Cards);
+            return View(cards);
         }
 
         [HttpGet]
