@@ -70,13 +70,13 @@ namespace Web.Controllers
 
             return View(service);
         }
-        // POST: Service/Create
+        //Add New Service
         [HttpGet]
         public IActionResult CreateService()
         {
             return View();
         }
-
+        // POST: Service/Create
         [HttpPost]
         public async Task<IActionResult> CreateService(ServiceViewModel service)
         {
@@ -100,7 +100,7 @@ namespace Web.Controllers
 
             return View(service);
         }
-        //EDIT SERVICE
+        //Edit Service
         [HttpGet]
         public async Task<IActionResult> EditService(int id)
         {
@@ -150,9 +150,9 @@ namespace Web.Controllers
             return View(service);
         }
 
-        // Delete: Service/DeleteService/{id}
+        // POST: Service/DeleteService/{id}
         [HttpPost]
-        public async Task<IActionResult> DeleteService(int id)
+        public async Task<IActionResult> DeleteService1(int id)
         {
             if (id <= 0)
             {
